@@ -1,4 +1,10 @@
 // sample main file, replace this with your own code
+#include "src\item.hpp"
+#include "src\tool.hpp"
+#include "src\nontool.hpp"
+#include "src\inventory.hpp"
+#include "src\crafting.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
