@@ -24,6 +24,13 @@ string item::getName() { return name; }
 string item::getType() { return type; }
 int item::getQuantity() { return quantity; }
 
+// setter
+void item :: setId(int id){
+    this->id = id;
+}
+void item :: setQuantity(int quant){
+    this->quantity = quant;
+}
 // print details
 void item::printDetails() { 
     cout << "ID: " << this->id << endl;
