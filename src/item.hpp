@@ -10,7 +10,7 @@ class item {
         string name;
         string type;
         int quantity;
-
+        int durability;
     public:
         item(); //ctor
         item(int id, string name, string type, int quantity); //ctor
@@ -28,7 +28,7 @@ class item {
 
         //clone 
         item* clone();
-        
+
         // print details
         void printDetails(); //mencetak detail sebuah item
 };

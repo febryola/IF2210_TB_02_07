@@ -1,6 +1,7 @@
 #include "inventory.hpp"
 #include "exception.hpp"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 inventory :: inventory(){
@@ -50,7 +51,8 @@ void inventory :: displayDetails(){
         for(int i=0; i<size_inventory;i++){
             if((this->inv_buffer[i])->getId()==1){
                 cout<<"Jenis: Tool, Slot_inv: "<<i<<", Nama: "
-                <<this->inv_buffer[i]->getName()<<endl;
+                <<this->inv_buffer[i]->getName()<<
+                " Durability: "<<this->inv_buffer[i]->getQuantity()<<endl;//harusnya ini durability
             }
             else{
                 cout<<"Jenis: NonTool, Slot_inv: "
@@ -103,6 +105,45 @@ void inventory :: moveToCraft(int slotSrc, int destSlot[], int N){
 
 }
 
-void inventory :: toAnotherSlot(int slotSrc, int destSlot[]){
-
+void inventory :: toAnotherSlot(int slotSrc, int destSlot){
+    if(this->inv_buffer[slotSrc]->getName()==this->inv_buffer[destSlot]->getName()){
+        if(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity()<=64){
+            this->inv_buffer[destSlot]->setQuantity(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity());
+            set(slotSrc, new item());
+        }
+        else{
+            this->inv_buffer[slotSrc]->setQuantity((this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity())%64);
+            this->inv_buffer[destSlot]->setQuantity(64);
+        }
+    }
 }
+
+void inventory :: exportInventory(string namafile){
+    ofstream fw;
+    fw.open("inventory.txt");
+    if (fw.is_open())
+    {
+      for (int i = 0; i < size_inventory; i++) {
+          if(this->inv_buffer[i]->getId()==0){//nontool
+                if(this->inv_buffer[i]->getQuantity()==0){
+                    fw <<"0:0"<< "\n";
+                }
+                else{
+                    fw << i <<":"<<this->inv_buffer[i]->getQuantity()<< "\n";
+                }
+                
+          }
+            else if(this->inv_buffer[i]->getId()==1){//tool
+                if(this->inv_buffer[i]->getQuantity()==0){
+                    fw <<"0:0"<< "\n";
+                }
+                else{
+                fw << i <<":"<<this->inv_buffer[i]->getQuantity()<< "\n"; //ini harusnya getDurability
+                }
+          }
+        
+      }
+      fw.close();
+    }
+}
+

@@ -27,7 +27,8 @@ class inventory {
         void addTool(tool* item, int start);
         void discard(int quantity, int slot);
         void moveToCraft(int slotSrc, int destSlot[], int N);
-        void toAnotherSlot(int slotSrc, int destSlot[]);
+        void toAnotherSlot(int slotSrc, int destSlot);
+        void exportInventory(string namafile);
 };
 
 #endif
