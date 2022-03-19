@@ -11,6 +11,8 @@ using namespace std;
 class crafting{
     private:
         map<int, item> table;
+        int max_row_filled;
+        int max_col_filled;
         
     public:
         crafting();
@@ -20,10 +22,9 @@ class crafting{
         item move(int crafting_slot);
         void show();
         item craft();
+        int checkRow(int crafting_slot);
+        int checkCol(int crafting_slot);
         bool isTableEmpty();
-
-        // ngecek row + column yg udah diisi
-        int checkFilledSlot();
 
 };
 
