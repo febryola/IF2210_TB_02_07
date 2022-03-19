@@ -18,3 +18,7 @@ void tool::useTool() {
     durability--;
     // kalau durability = 0, harus dihapus dari inventory
 }
+
+tool* tool :: clone(){
+    return new tool(*this);
+}

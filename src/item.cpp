@@ -31,6 +31,11 @@ void item :: setId(int id){
 void item :: setQuantity(int quant){
     this->quantity = quant;
 }
+
+//clone
+item* item :: clone(){
+    return new item(*this);
+}
 // print details
 void item::printDetails() { 
     cout << "ID: " << this->id << endl;

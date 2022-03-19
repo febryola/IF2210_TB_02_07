@@ -25,6 +25,9 @@ class item {
         // setter
         void setId(int id);
         void setQuantity(int quant);
+
+        //clone 
+        item* clone();
         
         // print details
         void printDetails(); //mencetak detail sebuah item

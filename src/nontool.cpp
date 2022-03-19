@@ -13,3 +13,7 @@ nontool::nontool(int id, string name, string type, int quantity) : item(id, name
 int nontool::getStack() {
     return stacked;
 }
+
+nontool* nontool :: clone(){
+    return new nontool(*this);
+}

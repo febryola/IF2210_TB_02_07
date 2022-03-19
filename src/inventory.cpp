@@ -68,7 +68,11 @@ void inventory :: addNonTool(nontool* item, int start){
 }
 
 void inventory :: addTool(tool* item, int quant){
-
+    for(int i = quant; i<size_inventory;i++){
+        if(this->get(i)->getId()==item->getId()){
+            set(i,item);
+        }
+    }
 }
 
 void inventory :: discard(int quantity, int slot){

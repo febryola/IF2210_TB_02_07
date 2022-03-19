@@ -11,6 +11,7 @@ class nontool : public item {
     public:
         nontool();
         nontool(int id, string name, string type, int quantity);
+        nontool* clone();
         int getStack();
 };
 

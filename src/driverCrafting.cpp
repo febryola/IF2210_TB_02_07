@@ -1,5 +1,5 @@
-#include "crafting.hpp"
-#include "item.hpp"
+#include "crafting.cpp"
+#include "item.cpp"
 int main(){
     item item1(1, "OAK_LOG", "LOG", 4);
     item item2(1, "OAK_LOG", "LOG", 4);
