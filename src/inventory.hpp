@@ -1,36 +1,33 @@
 //base class buat inventory
-
 #ifndef _INVENTORY_H
 #define _INVENTORY_H
 #include <iostream>
-#include <iterator>
-#include <map>
 #include "item.hpp"
-#define MAX_SIZE 64;
+#include "tool.hpp"
+#include "nontool.hpp"
+#define MAX_SIZE 64
 using namespace std;
 
-
-template <class T> //ini maksudnya bisa tool atau nontool
-class block {
-    private:
-        T item;
-        int jumlah;
-    public:
-        block();
-        block(T item, int jumlah);
-        ~block();
-        T getItem();
-        int getJumlah();
-        friend block operator+ (block const&, block const&);
-};
+const int ROW = 3;
+const int COLOM = 9;
+const int size_inventory = ROW*COLOM;
 
 class inventory {
     private:
-        map<int, block<item>> inven;
+        item** inv_buffer;
     public:
         inventory();
-        inventory(const inventory &other);
         ~inventory();
+        item* get(int pos);
+        void set(int pos, item* items);
+        void specify(int pos);
+        void displayMenu();
+        void displayDetails();
+        void addNonTool(nontool* item, int quantity);
+        void addTool(tool* item, int start);
+        void discard(int quantity, int slot);
+        void moveToCraft(int slotSrc, int destSlot[], int N);
+        void toAnotherSlot(int slotSrc, int destSlot[]);
 };
 
 #endif
