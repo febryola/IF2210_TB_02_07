@@ -22,6 +22,10 @@ class item {
         string getType();
         int getQuantity();
 
+        // setter
+        void setId(int id);
+        void setQuantity(int quant);
+        
         // print details
         void printDetails(); //mencetak detail sebuah item
 };
