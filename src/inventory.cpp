@@ -46,14 +46,25 @@ void inventory :: displayMenu(){
 }
 
 void inventory :: displayDetails(){
-
+    cout << "\nInventory Details: " << endl;
+        for(int i=0; i<size_inventory;i++){
+            if((this->inv_buffer[i])->getId()==1){
+                cout<<"Jenis: Tool, Slot_inv: "<<i<<", Nama: "
+                <<this->inv_buffer[i]->getName()<<endl;
+            }
+            else{
+                cout<<"Jenis: NonTool, Slot_inv: "
+                <<i<<", Nama: "<<this->inv_buffer[i]->getName()<<
+                " Quantity: "<<this->inv_buffer[i]->getQuantity()<<endl;
+            }
+        }
 }
 
 void inventory :: addNonTool(nontool* item, int start){
     for(int i = start; i<size_inventory;i++){
         if(this->get(i)->getId()==item->getId()){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){
-                this->get(i)->setQuantity(this->get(i)->getQuantity()+item->getQuantity());
+                set(i,item);
                 return;
             }
             else{
@@ -69,8 +80,9 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item, int quant){
     for(int i = quant; i<size_inventory;i++){
-        if(this->get(i)->getId()==item->getId()){
+        if(this->get(i)->getId()+1==item->getId()){
             set(i,item);
+            return;
         }
     }
 }
