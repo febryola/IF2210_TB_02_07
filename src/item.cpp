@@ -18,6 +18,12 @@ item::item(int id, string name, string type, int quantity) {
     this->quantity = quantity;
 }
 
+// getter
+int item::getId() { return id; }
+string item::getName() { return name; }
+string item::getType() { return type; }
+int item::getQuantity() { return quantity; }
+
 // print details
 void item::printDetails() { 
     cout << "ID: " << this->id << endl;

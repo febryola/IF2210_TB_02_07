@@ -15,6 +15,14 @@ class item {
         item(); //ctor
         item(int id, string name, string type, int quantity); //ctor
         //cctor dan dtor tidak perlu
+
+        // getter
+        int getId();
+        string getName();
+        string getType();
+        int getQuantity();
+
+        // print details
         void printDetails(); //mencetak detail sebuah item
 };
 
