@@ -11,6 +11,7 @@ class tool : public item {
     public:
         tool();
         tool(int id, string name, string type, int quantity, int durability);
+        int getDurability();
         void useTool();
 };
 

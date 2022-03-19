@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-class item{
+class item {
     protected:
         int id;
         string name;
@@ -12,8 +12,10 @@ class item{
         int quantity;
 
     public:
-        item();
-        item(int id, string name, string type, int quantity);
+        item(); //ctor
+        item(int id, string name, string type, int quantity); //ctor
+        //cctor dan dtor tidak perlu
+        void printDetails(); //mencetak detail sebuah item
 };
 
 #endif
