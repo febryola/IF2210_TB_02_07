@@ -5,6 +5,9 @@
 #include <fstream>
 using namespace std;
 
+/*
+Note : non tool idnya <=12, tool id>12
+*/
 inventory :: inventory(){
     this->inv_buffer = new item*[size_inventory];
     for(int i = 0; i < size_inventory; i++){
@@ -40,7 +43,6 @@ void inventory :: displayMenu(){
         cout<<"[I" << i << " "
             << (this->inv_buffer[i])->getId()<<" "
             << (this->inv_buffer[i])->getQuantity()<<"] ";
-            //<< (this->inv_buffer[i])->getDurability()<<" "
         if((i+1)%COLOM ==0){
             cout<<endl;
         }
@@ -50,7 +52,7 @@ void inventory :: displayMenu(){
 void inventory :: displayDetails(){
     cout << "\nInventory Details: " << endl;
         for(int i=0; i<size_inventory;i++){
-            if((this->inv_buffer[i])->getId()==1){
+            if((this->inv_buffer[i])->getId()>12){
                 cout<<"Jenis: Tool, Slot_inv: "<<i<<", Nama: "
                 <<this->inv_buffer[i]->getName()<<
                 " Durability: "<<this->inv_buffer[i]->getQuantity()<<endl;//harusnya ini durability
@@ -65,7 +67,7 @@ void inventory :: displayDetails(){
 
 void inventory :: addNonTool(nontool* item, int start){
     for(int i = start; i<size_inventory;i++){
-        if(this->get(i)->getId()==item->getId()){
+        if(item->getId()<=12){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){
                 set(i,item);
                 return;
@@ -83,7 +85,7 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item, int quant){
     for(int i = quant; i<size_inventory;i++){
-        if(this->get(i)->getId()+1==item->getId()){
+        if(item->getId()>12){
             set(i,item);
             return;
         }
@@ -134,7 +136,7 @@ void inventory :: exportInventory(string namaFile){
     if (fw.is_open())
     {
       for (int i = 0; i < size_inventory; i++) {
-          if(this->inv_buffer[i]->getId()==0){//nontool
+          if(this->inv_buffer[i]->getId()<=12){//nontool
                 if(this->inv_buffer[i]->getQuantity()==0){
                     fw <<"0:0"<< "\n";
                 }
@@ -143,7 +145,7 @@ void inventory :: exportInventory(string namaFile){
                 }
                 
           }
-            else if(this->inv_buffer[i]->getId()==1){//tool
+            else if(this->inv_buffer[i]->getId()>12){//tool
                 if(this->inv_buffer[i]->getQuantity()==0){
                     fw <<"0:0"<< "\n";
                 }
