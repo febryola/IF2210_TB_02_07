@@ -30,6 +30,9 @@ class inventory {
         void moveToCraft(int slotInvent, int slotCraft, int N);
         void toAnotherSlot(int slotSrc, int destSlot);
         void exportInventory(string namaFile);
+
+        int findItemPos(item i);
+        void useTool(tool& i);
 };
 
 #endif

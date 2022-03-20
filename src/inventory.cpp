@@ -157,3 +157,19 @@ void inventory :: exportInventory(string namaFile){
     }
 }
 
+int inventory::findItemPos(item i) {
+    // diasumsikan item ada di dalam inventory
+    int j = 0;
+    while (j < size_inventory && !((*get(j))==i)) {
+        j++;
+    }
+    
+    return j;
+}
+
+void inventory::useTool(tool& i) {
+    i.useTool();
+    if (i.getDurability() == 0) {
+        set(findItemPos(i), new item());
+    }
+}
