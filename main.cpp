@@ -93,7 +93,18 @@ int main() {
       // need to handle multiple destinations
       cin >> slotSrc >> slotQty >> slotDest;
       cout << "TODO" << endl;
-      
+
+    }else if (command == "DISCARD") {
+      int itemQty;
+      int slot;
+      cout << "Masukkan jumlah item: ";
+      cin >> itemQty;
+      cout << "Masukkan slot ID yang ingin ditempati: ";
+      cin >> slot;
+      (*inven).discard(itemQty,slot);
+      cout << getColorANSI(BLUE)<<"Item pada slot " << slot << " berhasil dibuang sebanyak "<<itemQty<< " dari Inventory\n";
+      cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
+
     }else if (command == "EXIT") {
       exit(0);
 
