@@ -10,7 +10,7 @@ int main(){
     inventory *inven = new inventory();
     nontool *item1 = new nontool(0, "OAK_LOG", "LOG", 7);
     nontool *item2 = new nontool(0, "OAK_PLANK", "PLANK", 6);
-    tool *item3 = new tool(1, "IRON_PICKAXE", "-", 1, 10);
+    tool *item3 = new tool(1, "IRON_PICKAXE", "-", 1, 2);
     tool *item4 = new tool(1, "WOODEN_AXE", "-", 1, 10);
     nontool *item5 = new nontool(0, "OAK_LOG", "LOG", 8);
     nontool *item6 = new nontool(0, "OAK_LOG", "LOG", 60);
@@ -21,6 +21,17 @@ int main(){
     (*inven).addNonTool(item5,4);
     (*inven).addNonTool(item6,5);
     (*inven).displayMenu();
+
+    // coba use item3 sampai durability habis;
+    (*item3).printDetails();
+    (*inven).useTool(*item3);
+    (*item3).printDetails();
+    (*inven).displayDetails();
+
+    (*inven).useTool(*item3);
+    (*item3).printDetails();
+    (*inven).displayDetails();
+    
     (*inven).discard(2,1); //membuang item pada slot 1 dengan jumlah 2
     cout<<"Setelah item id 1 dibuang\n";
     (*inven).displayMenu();
