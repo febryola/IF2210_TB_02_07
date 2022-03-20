@@ -15,6 +15,7 @@ crafting::crafting(){
 // move ke crafting
 void crafting::move(item *itemMoved, int crafting_slot){
     this->table[crafting_slot] = *itemMoved;
+    (this->table[crafting_slot]).setQuantity(1);
     checkCol(crafting_slot);
     checkRow(crafting_slot);
 }

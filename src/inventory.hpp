@@ -29,7 +29,7 @@ class inventory {
         void discard(int quantity, int slot);
         void moveToCraft(int slotInvent, int slotCraft, int N);
         void toAnotherSlot(int slotSrc, int destSlot);
-        void exportInventory();
+        void exportInventory(string namaFile);
 };
 
 #endif

@@ -112,6 +112,7 @@ void inventory :: moveToCraft(int slotInvent, int slotCraft, int N){
         this->inv_buffer[slotInvent]->setQuantity(items->getQuantity()-N);
     }
     (*crafting1).show();
+    
 }
 
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
@@ -127,9 +128,9 @@ void inventory :: toAnotherSlot(int slotSrc, int destSlot){
     }
 }
 
-void inventory :: exportInventory(){
+void inventory :: exportInventory(string namaFile){
     ofstream fw;
-    fw.open("inventory.txt");
+    fw.open(namaFile);
     if (fw.is_open())
     {
       for (int i = 0; i < size_inventory; i++) {

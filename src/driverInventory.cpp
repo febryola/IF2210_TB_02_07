@@ -31,10 +31,10 @@ int main(){
     (*inven).displayMenu();
     (*inven).toAnotherSlot(5,0);//item pada slot 5 masih tersisa
     (*inven).displayMenu();
-    (*inven).exportInventory();
+    (*inven).exportInventory("../tests/1.out");
     (*inven).moveToCraft(0,4,5);
     (*inven).displayMenu();
-    (*inven).exportInventory();
+    (*inven).exportInventory("../tests/1.out");
     return 0;
    
 }
