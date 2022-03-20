@@ -43,3 +43,7 @@ void item::printDetails() {
     cout << "Tipe: " << this->type << endl;
     cout << "Jumlah: " << this->quantity << endl;
 }
+
+bool item::operator==(item i) {
+    return (id == i.id && name == i.name && type == i.type && quantity == i.quantity);
+}

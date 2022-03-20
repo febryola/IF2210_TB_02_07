@@ -31,6 +31,8 @@ class item {
 
         // print details
         void printDetails(); //mencetak detail sebuah item
+
+        bool operator==(item i);
 };
 
 #endif
