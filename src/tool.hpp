@@ -14,6 +14,7 @@ class tool : public item {
         tool* clone();
         int getDurability();
         void useTool();
+        void printDetails();
 };
 
 #endif

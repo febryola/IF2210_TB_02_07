@@ -22,3 +22,8 @@ void tool::useTool() {
 tool* tool :: clone(){
     return new tool(*this);
 }
+
+void tool::printDetails() {
+    this->item::printDetails();
+    cout << "Jumlah: " << this->durability << endl;
+}
