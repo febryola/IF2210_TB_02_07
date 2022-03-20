@@ -13,8 +13,8 @@ crafting::crafting(){
     this->max_col_filled = 0;
 }
 // move ke crafting
-void crafting::move(item itemMoved, int crafting_slot){
-    this->table[crafting_slot] = itemMoved;
+void crafting::move(item *itemMoved, int crafting_slot){
+    this->table[crafting_slot] = *itemMoved;
     checkCol(crafting_slot);
     checkRow(crafting_slot);
 }

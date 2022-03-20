@@ -1,5 +1,6 @@
 #include "inventory.hpp"
 #include "exception.hpp"
+#include "crafting.hpp"
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -101,8 +102,16 @@ void inventory :: discard(int quantity, int slot){
     }
 }
 
-void inventory :: moveToCraft(int slotSrc, int destSlot[], int N){
-
+void inventory :: moveToCraft(int slotInvent, int slotCraft, int N){
+    crafting *crafting1 = new crafting();
+    item *items = this->inv_buffer[slotInvent];
+    if(this->inv_buffer[slotInvent]->getQuantity()>=N){
+        for(int i=0;i<=slotCraft;i++){
+            (*crafting1).move(items,i);
+        }
+        this->inv_buffer[slotInvent]->setQuantity(items->getQuantity()-N);
+    }
+    (*crafting1).show();
 }
 
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
@@ -118,7 +127,7 @@ void inventory :: toAnotherSlot(int slotSrc, int destSlot){
     }
 }
 
-void inventory :: exportInventory(string namafile){
+void inventory :: exportInventory(){
     ofstream fw;
     fw.open("inventory.txt");
     if (fw.is_open())

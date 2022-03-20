@@ -17,7 +17,7 @@ class crafting{
     public:
         crafting();
         // move ke crafting
-        void move(item itemMoved, int crafting_slot);
+        void move(item *itemMoved, int crafting_slot);
         // move k inventory
         item move(int crafting_slot);
         void show();

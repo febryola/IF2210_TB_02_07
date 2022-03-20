@@ -5,6 +5,7 @@
 #include "item.hpp"
 #include "tool.hpp"
 #include "nontool.hpp"
+#include "crafting.hpp"
 #define MAX_SIZE 64
 using namespace std;
 
@@ -26,9 +27,9 @@ class inventory {
         void addNonTool(nontool* item, int quantity);
         void addTool(tool* item, int start);
         void discard(int quantity, int slot);
-        void moveToCraft(int slotSrc, int destSlot[], int N);
+        void moveToCraft(int slotInvent, int slotCraft, int N);
         void toAnotherSlot(int slotSrc, int destSlot);
-        void exportInventory(string namafile);
+        void exportInventory();
 };
 
 #endif

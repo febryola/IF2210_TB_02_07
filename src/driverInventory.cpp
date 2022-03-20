@@ -2,6 +2,7 @@
 #include "item.cpp"
 #include "tool.cpp"
 #include "nontool.cpp"
+#include "crafting.cpp"
 #include <iostream>
 using namespace std;
 
@@ -30,7 +31,10 @@ int main(){
     (*inven).displayMenu();
     (*inven).toAnotherSlot(5,0);//item pada slot 5 masih tersisa
     (*inven).displayMenu();
-    (*inven).exportInventory("apa");
+    (*inven).exportInventory();
+    (*inven).moveToCraft(0,4,5);
+    (*inven).displayMenu();
+    (*inven).exportInventory();
     return 0;
    
 }
