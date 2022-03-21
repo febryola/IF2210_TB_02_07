@@ -19,3 +19,23 @@ recipe::recipe(int row, int col,  map<int, item> resep, map<int, item> resepMirr
     this->resepMirror = resepMirror;
     this->hasil = hasil;
 }
+
+
+int recipe::getRow(){
+    return row;
+}
+int recipe::getCol(){
+    return col;
+}
+string recipe::getResep(int idx){
+    return resep[idx];
+}
+string recipe::getResepMirror(int idx){
+    return resepMirror[idx];
+}
+int recipe::getQuantity(){
+    return quantity;
+}
+string recipe::getHasil(){
+    return hasil;
+}

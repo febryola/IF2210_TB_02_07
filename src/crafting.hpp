@@ -2,6 +2,7 @@
 #ifndef _CRAFTING_H
 #define _CRAFTING_H
 #include "item.hpp"
+#include "listOfRecipe.hpp"
 #include <iostream>
 #include <iterator>
 #include <map>
@@ -11,6 +12,7 @@ using namespace std;
 class crafting{
     private:
         map<int, item> table;
+        map<int, string> stringTable;
         int max_row_filled;
         int max_col_filled;
         
@@ -21,7 +23,7 @@ class crafting{
         // move k inventory
         item move(int crafting_slot);
         void show();
-        item craft();
+        item craft(listOfRecipe& recipe_list);
         int checkRow(int crafting_slot);
         int checkCol(int crafting_slot);
         bool isTableEmpty();
