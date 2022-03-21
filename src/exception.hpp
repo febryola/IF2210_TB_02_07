@@ -1,9 +1,9 @@
 #ifndef _EXCEPTION_HPP_
 #define _EXCEPTION_HPP_
-
 #include <iostream>
 #include <string>
 using namespace std;
+
 class BaseException {
     protected:
         string type;

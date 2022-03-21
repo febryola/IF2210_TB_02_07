@@ -21,6 +21,7 @@ class item {
         string getName();
         string getType();
         int getQuantity();
+        virtual int getDurability();
 
         // setter
         void setId(int id);
@@ -30,7 +31,8 @@ class item {
         item* clone();
 
         // print details
-        void printDetails(); //mencetak detail sebuah item
+        virtual void printDetails(); //mencetak detail sebuah item
+
 
         bool operator==(item i);
 };

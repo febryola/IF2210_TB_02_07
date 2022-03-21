@@ -23,6 +23,7 @@ int item::getId() { return id; }
 string item::getName() { return name; }
 string item::getType() { return type; }
 int item::getQuantity() { return quantity; }
+int item::getDurability() { return -1; }
 
 // setter
 void item :: setId(int id){

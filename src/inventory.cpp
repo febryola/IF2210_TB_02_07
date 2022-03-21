@@ -150,7 +150,7 @@ void inventory :: exportInventory(string namaFile){
                     fw <<"0:0"<< "\n";
                 }
                 else{
-                fw << this->inv_buffer[i]->getId() <<":"<<this->inv_buffer[i]->getQuantity()<< "\n"; //ini harusnya getDurability
+                fw << this->inv_buffer[i]->getId() <<":"<<this->inv_buffer[i]->getDurability()<< "\n"; //ini harusnya getDurability
                 }
           }
         

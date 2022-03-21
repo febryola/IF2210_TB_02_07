@@ -45,41 +45,51 @@ int main() {
     // read from file and do something
   }*/
 
-  // sample interaction
+  // SAMPLE TESTING
   listCommand();
   cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
   string command;
-  while (cin >> command) {
-    if (command == "EXPORT") {
+  bool isRun = true;
+
+  while (isRun) {
+    cin >> command;
+
+    if (command == "EXPORT") 
+    {
       string outputPath;
       cin >> outputPath;
       cout << getColorANSI(NORMAL);
       (*inven).exportInventory(outputPath);
-
-    } else if (command == "SHOW") {
+    } 
+    else if (command == "SHOW") 
+    {
       (*craft).show();
-      cout<<endl;
+      cout << endl;
       (*inven).displayMenu();
-
-    } else if (command == "CRAFT") {
+    } 
+    else if (command == "CRAFT")
+    {
       cout << "TODO" << endl;
-
-    } else if (command == "GIVE") {
+    } 
+    else if (command == "GIVE") 
+    {
       string itemName;
       int itemQty;
       cin >> itemName >> itemQty;
       int id = getIDFromName(itemName);
       string type = getTypeFromName(itemName);
-      if(id<=12){
+      if(id <= 12) {
         nontool *items = new nontool(id,itemName,type,itemQty);
         (*inven).addNonTool(items,0);
       }
-      else{
+      else {
         tool *items = new tool(id,itemName,type,1,10);
         (*inven).addTool(items,0);
       }
 
-    } else if (command == "MOVE") {
+    } 
+    else if (command == "MOVE") 
+    {
       int slotSrc;
       int slotQty;
       int slotDest;
@@ -87,20 +97,28 @@ int main() {
       cin >> slotQty;
       cin >> slotDest;
       
-    }else if (command == "DISCARD") {
+    } 
+    else if (command == "DISCARD") 
+    {
       int itemQty;
       string slot;
       cin >> itemQty;
       cin >> slot;
 
-    }else if (command == "EXIT") {
+    } 
+    else if (command == "EXIT") 
+    {
+      isRun = false;
       exit(0);
-
-    }else if (command == "USE") {
+    } 
+    else if (command == "USE") 
+    {
       string slotID;
-      cin>>slotID;
+      cin >> slotID;
       int slot = stoi(slotID);
-    } else {
+    } 
+    else 
+    {
       // todo
       cout << getColorANSI(RED) << "\nInvalid command" << endl;
     }
