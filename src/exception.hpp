@@ -5,16 +5,18 @@
 #include <string>
 using namespace std;
 class BaseException {
-    private:
-        string msg;
+    protected:
+        string type;
     public:
         virtual void printMessage() = 0;
 };
 
 class IndexOutOfBoundException : public BaseException {
-    private:
+    protected:
         int idxAccessed;
         int containerSize;
+    public:
+        IndexOutOfBoundException(int idxAccessed, int containerSize);
 };
 
 class CraftIndexOutOfBoundException : public IndexOutOfBoundException {
