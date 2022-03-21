@@ -51,20 +51,15 @@ int main() {
   string command;
   while (cin >> command) {
     if (command == "EXPORT") {
-       string test = "tests/";
       string outputPath;
-      cout << getColorANSI(GREEN)<< "Masukkan nama file: ";
       cin >> outputPath;
       cout << getColorANSI(NORMAL);
-      (*inven).exportInventory(test+outputPath);
-      cout << "File Exported" << endl;
-      cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
+      (*inven).exportInventory(outputPath);
 
     } else if (command == "SHOW") {
       (*craft).show();
       cout<<endl;
       (*inven).displayMenu();
-      cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
 
     } else if (command == "CRAFT") {
       cout << "TODO" << endl;
@@ -72,83 +67,42 @@ int main() {
     } else if (command == "GIVE") {
       string itemName;
       int itemQty;
-      int slot;
-      cout << "Masukkan nama item: ";
-      cin >> itemName;
+      cin >> itemName >> itemQty;
       int id = getIDFromName(itemName);
       string type = getTypeFromName(itemName);
       if(id<=12){
-        cout << "Masukkan jumlah item: ";
-        cin >> itemQty;
-        cout << "Masukkan slot ID yang ingin ditempati: ";
-        cin >> slot;
         nontool *items = new nontool(id,itemName,type,itemQty);
-        (*inven).addNonTool(items,slot);
-        cout << getColorANSI(BLUE)<<"Item " << itemName << " berhasil ditambahkan ke Inventory\n";
-        cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
+        (*inven).addNonTool(items,0);
       }
       else{
-        cout << "Masukkan slot ID yang ingin ditempati: ";
-        cin >> slot;
         tool *items = new tool(id,itemName,type,1,10);
-        (*inven).addTool(items,slot);
-        cout << getColorANSI(BLUE)<<"Item " << itemName << " berhasil ditambahkan ke Inventory\n";
-        cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
+        (*inven).addTool(items,0);
       }
-      
 
     } else if (command == "MOVE") {
-      int pilihan;
       int slotSrc;
       int slotQty;
       int slotDest;
-      cout<<getColorANSI(RED)<<"Menu pada move\n"<<getColorANSI(NORMAL);
-      cout<<"1. pindahkan item dari inventory ke craft\n";
-      cout<<"2. pindahkan item dari slot inventory ke slot lain\n"<<getColorANSI(NORMAL);
-      cout << getColorANSI(MAGENTA)<<"Masukkan pilihan: "<<getColorANSI(NORMAL);
-      cin >> pilihan;
-      cout << "Masukkan slot ID sumber: ";
       cin >> slotSrc;
-      cout << "Masukkan slot ID Tujuan: ";
+      cin >> slotQty;
       cin >> slotDest;
-      // need to handle multiple destinations
-      if(pilihan==1){
-        cout << "Masukkan banyak slot yang ingin dipindahkan: ";
-        cin >> slotQty;
-        (*inven).moveToCraft(slotSrc,slotQty,slotDest);
-        cout << getColorANSI(BLUE)<<"Item pada inventory ID " << slotSrc << " berhasil dipindahkan ke craft ID "<< slotDest <<endl;
-        cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
-      }
-      else{
-        (*inven).toAnotherSlot(slotSrc,slotDest);
-        cout << getColorANSI(BLUE)<<"Item pada inventory ID " << slotSrc << " berhasil dipindahkan ke inventory ID "<< slotDest <<endl;
-        cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
-      }
+      
     }else if (command == "DISCARD") {
       int itemQty;
-      int slot;
-      cout << "Masukkan jumlah item: ";
+      string slot;
       cin >> itemQty;
-      cout << "Masukkan slot ID yang ingin ditempati: ";
       cin >> slot;
-      (*inven).discard(itemQty,slot);
-      cout << getColorANSI(BLUE)<<"Item pada slot " << slot << " berhasil dibuang sebanyak "<<itemQty<< " dari Inventory\n";
-      cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
 
     }else if (command == "EXIT") {
       exit(0);
 
     }else if (command == "USE") {
-      int slotID;
-      cout<<"Masukkan slot ID item yang ingin digunakan: ";
+      string slotID;
       cin>>slotID;
-      cout << getColorANSI(BLUE)<<"Tool pada slot " << slotID << " berhasil digunakan\n";
-      cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
-
+      int slot = stoi(slotID);
     } else {
       // todo
       cout << getColorANSI(RED) << "\nInvalid command" << endl;
-      cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
     }
   }
   return 0;
