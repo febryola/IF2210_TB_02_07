@@ -68,7 +68,7 @@ void inventory :: displayDetails(){
 
 void inventory :: addNonTool(nontool* item, int start){
     for(int i = start; i<size_inventory;i++){
-        if(item->getId()<=12){
+        if(item->getId()<=12&&this->get(i)->getQuantity()==0){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){
                 set(i,item);
                 return;
@@ -86,7 +86,7 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item, int quant){
     for(int i = quant; i<size_inventory;i++){
-        if(item->getId()>12){
+        if(item->getId()>12&&this->get(i)->getQuantity()==0){
             set(i,item);
             return;
         }
@@ -115,7 +115,6 @@ void inventory :: moveToCraft(int slotInvent, int slotCraft, int N){
         this->inv_buffer[slotInvent]->setQuantity(items->getQuantity()-N);
     }
     (*crafting1).show();
-    
 }
 
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
