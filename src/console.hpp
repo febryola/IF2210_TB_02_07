@@ -1,6 +1,4 @@
-
 #pragma once
-
 #include <string>
 #include <vector>
 
@@ -21,4 +19,5 @@ void printTable(vector<string> charTable, vector<vector<Color>> colorTable);
 void printHeader();
 int getIDFromName(string name);
 string getTypeFromName(string name);
+int getIDFromString(string name);
 }  // namespace Console

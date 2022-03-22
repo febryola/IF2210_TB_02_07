@@ -48,3 +48,4 @@ void item::printDetails() {
 bool item::operator==(item i) {
     return (id == i.id && name == i.name && type == i.type && quantity == i.quantity);
 }
+

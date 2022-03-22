@@ -78,16 +78,10 @@ int main() {
       cin >> itemName >> itemQty;
       int id = getIDFromName(itemName);
       string type = getTypeFromName(itemName);
-      if(id <= 12) {
-        nontool *items = new nontool(id,itemName,type,itemQty);
-        (*inven).addNonTool(items,0);
-      }
-      else {
-        tool *items = new tool(id,itemName,type,1,10);
-        (*inven).addTool(items,0);
-      }
-
+      nontool *items = new nontool(id,itemName,type,itemQty);
+      (*inven).addNonTool(items,0);
     } 
+
     else if (command == "MOVE") 
     {
       int slotSrc;
@@ -115,7 +109,6 @@ int main() {
     {
       string slotID;
       cin >> slotID;
-      int slot = stoi(slotID);
     } 
     else 
     {

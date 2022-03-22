@@ -6,9 +6,6 @@
 #include <fstream>
 using namespace std;
 
-/*
-Note : non tool idnya <=12, tool id>12
-*/
 inventory :: inventory(){
     this->inv_buffer = new item*[size_inventory];
     for(int i = 0; i < size_inventory; i++){
@@ -34,16 +31,13 @@ void inventory :: set(int pos, item* items){
     (this->inv_buffer[pos]) = items;               
 }
 
-void inventory :: specify(int pos){
-
-}
-
 void inventory :: displayMenu(){
     cout << "\nInventory: " << endl;
     for(int i=0; i<size_inventory;i++){
         cout<<"[I" << i << " "
             << (this->inv_buffer[i])->getId()<<" "
-            << (this->inv_buffer[i])->getQuantity()<<"] ";
+            << (this->inv_buffer[i])->getQuantity()<<" "
+            << (this->inv_buffer[i])->getDurability()<<"] ";
         if((i+1)%COLOM ==0){
             cout<<endl;
         }
@@ -53,29 +47,34 @@ void inventory :: displayMenu(){
 void inventory :: displayDetails(){
     cout << "\nInventory Details: " << endl;
         for(int i=0; i<size_inventory;i++){
-            if((this->inv_buffer[i])->getId()>12){
+            if((this->inv_buffer[i])->getDurability()>=0){
                 cout<<"Jenis: Tool, Slot_inv: "<<i<<", Nama: "
                 <<this->inv_buffer[i]->getName()<<
-                " Durability: "<<this->inv_buffer[i]->getQuantity()<<endl;//harusnya ini durability
+                " Durability: "<<this->inv_buffer[i]->getDurability()<<endl;
             }
-            else{
-                cout<<"Jenis: NonTool, Slot_inv: "
-                <<i<<", Nama: "<<this->inv_buffer[i]->getName()<<
-                " Quantity: "<<this->inv_buffer[i]->getQuantity()<<endl;
+            else if((this->inv_buffer[i])->getDurability()==-1){
+                if(this->inv_buffer[i]->getQuantity()==0){
+                    cout<< "Jenis: unknown, Slot_inv: "
+                    <<i<<", Nama: unknown, Quantity: 0"<<endl;
+                }
+                else{
+                    cout<<"Jenis: NonTool, Slot_inv: "
+                    <<i<<", Nama: "<<this->inv_buffer[i]->getName()<<
+                    ", Quantity: "<<this->inv_buffer[i]->getQuantity()<<endl;
+                }
             }
         }
 }
 
 void inventory :: addNonTool(nontool* item, int start){
     for(int i = start; i<size_inventory;i++){
-        if(item->getId()<=12&&this->get(i)->getQuantity()==0){
+        if(item->getDurability()==-1&&this->get(i)->getQuantity()==0){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){
                 set(i,item);
                 return;
             }
             else{
                 item->setQuantity(item->getQuantity()-(MAX_SIZE-this->get(i)->getQuantity()));
-                cout << "Stacked item, "<<item->getQuantity()<<" left" << endl;
                 this->get(i)->setQuantity(MAX_SIZE);
                 this->addNonTool(item,i+1);
                 return;
@@ -86,7 +85,7 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item, int quant){
     for(int i = quant; i<size_inventory;i++){
-        if(item->getId()>12&&this->get(i)->getQuantity()==0){
+        if(item->getDurability()>=0&&this->get(i)->getQuantity()==0){
             set(i,item);
             return;
         }
@@ -105,16 +104,26 @@ void inventory :: discard(int quantity, int slot){
     }
 }
 
-void inventory :: moveToCraft(int slotInvent, int slotCraft, int N){
-    crafting *crafting1 = new crafting();
+void inventory :: moveToCraft(int slotInvent, int N){
     item *items = this->inv_buffer[slotInvent];
-    if(this->inv_buffer[slotInvent]->getQuantity()>=N){
-        for(int i=0;i<N;i++){
-            (*crafting1).move(items,i);
-        }
+    if(this->inv_buffer[slotInvent]->getQuantity()==N){
+        set(slotInvent,new item());
+    }
+    else if(this->inv_buffer[slotInvent]->getQuantity()>N){
         this->inv_buffer[slotInvent]->setQuantity(items->getQuantity()-N);
     }
-    (*crafting1).show();
+    else{
+        cout<<"jumlah item tidak cukup"<<endl;//pake exception
+    }
+}
+
+void inventory :: moveFromCraft(item* i, int slot){
+    if (i->getName()==this->inv_buffer[slot]->getName()&&this->inv_buffer[slot]->getQuantity()<64&&this->inv_buffer[slot]->getDurability()==-1){
+        this->inv_buffer[slot]->setQuantity(this->inv_buffer[slot]->getQuantity()+1);
+    }
+    if (this->inv_buffer[slot]->getQuantity()==0){
+        set(slot,i);
+    }
 }
 
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
@@ -136,7 +145,7 @@ void inventory :: exportInventory(string namaFile){
     if (fw.is_open())
     {
       for (int i = 0; i < size_inventory; i++) {
-          if(this->inv_buffer[i]->getId()<=12){//nontool
+          if((this->inv_buffer[i])->getDurability()==-1){//nontool
                 if(this->inv_buffer[i]->getQuantity()==0){
                     fw <<"0:0"<< "\n";
                 }
@@ -145,7 +154,7 @@ void inventory :: exportInventory(string namaFile){
                 }
                 
           }
-            else if(this->inv_buffer[i]->getId()>12){//tool
+            else if((this->inv_buffer[i])->getDurability()>=0){//tool
                 if(this->inv_buffer[i]->getQuantity()==0){
                     fw <<"0:0"<< "\n";
                 }
