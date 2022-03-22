@@ -90,3 +90,52 @@ bool crafting::isTableEmpty(){
     }
     return true;
 }
+
+item crafting::craft(listOfRecipe& recipe_list){
+    // make item, not durability yet
+    int idxFound = -1;
+    bool sama = true;
+    for(int i=0; i<9; i++){
+        if(table[i].getName()!="UNKNOWN"){
+            stringTable[i] = table[i].getName();
+        } else{
+            stringTable[i] = "-";
+        }
+    }
+
+    for(int i=0; i<recipe_list.getSize(); i++){
+        recipe temp = recipe_list.getRecipe(i);
+        if(temp.getRow() == max_row_filled && temp.getCol() == max_col_filled){
+            for(int i=0; i<9; i++){
+                // not yet checked
+                if(stringTable[i] != temp.getResep(i)){
+                    sama = false;
+                }
+            }
+            if(sama==true){
+                idxFound = i;
+            }
+        }
+    }
+
+    if(idxFound==-1){
+        for(int i=0; i<recipe_list.getSize(); i++){
+        recipe temp = recipe_list.getRecipe(i);
+        if(temp.getRow() == max_row_filled && temp.getCol() == max_col_filled){
+            for(int i=0; i<9; i++){
+                if(stringTable[i] != temp.getResepMirror(i)){
+                    sama = false;
+                }
+            }
+            if(sama==true){
+                idxFound = i;
+            }
+        }
+    }
+    
+    if(idxFound != -1){
+        cout << recipe_list.getRecipe(idxFound).getHasil() << recipe_list.getRecipe(idxFound).getQuantity() << endl;
+    } else{
+        cout << "Not Found" << endl;
+    }
+}

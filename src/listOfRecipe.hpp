@@ -12,6 +12,8 @@ class listOfRecipe{
         int size;
     public:
         listOfRecipe();
+        int getSize();
+        recipe getRecipe(int idx);
 };
 
 #endif
