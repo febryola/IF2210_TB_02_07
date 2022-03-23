@@ -27,6 +27,7 @@ int getIDFromName(string name){
   else if(name=="STONE_SWORD"){return 22;}
   else if(name=="IRON_SWORD"){return 23;}
   else if(name=="DIAMOND_SWORD"){return 24;}
+  return 0;
 }
 
 string getTypeFromName(string name){

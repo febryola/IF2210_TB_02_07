@@ -51,7 +51,7 @@ void crafting::show(){
     cout << "Max Col : " << max_col_filled << endl;
 }
 
-int crafting::checkRow(int crafting_slot){
+void crafting::checkRow(int crafting_slot){
     int counter_row = 0;
     int which_row = crafting_slot/3;
     int counter = 0;
@@ -68,7 +68,7 @@ int crafting::checkRow(int crafting_slot){
         max_row_filled = counter_row;
     }
 }
-int crafting::checkCol(int crafting_slot){
+void crafting::checkCol(int crafting_slot){
     int counter_col = 0;
     int which_col = crafting_slot % 3;
     for(int i = which_col; i<9; i+=3){

@@ -24,8 +24,8 @@ class crafting{
         item move(int crafting_slot);
         void show();
         item craft(listOfRecipe& recipe_list);
-        int checkRow(int crafting_slot);
-        int checkCol(int crafting_slot);
+        void checkRow(int crafting_slot);
+        void checkCol(int crafting_slot);
         bool isTableEmpty();
 
 };
