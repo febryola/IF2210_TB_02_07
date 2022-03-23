@@ -4,6 +4,7 @@
 #include "nontool.cpp"
 #include "inventory.cpp"
 #include "crafting.cpp"
+#include "exception.cpp"
 #include <iostream>
 using namespace std;
 
@@ -25,11 +26,11 @@ int main(){
 
     //coba use item3 sampai durability habis;
     (*item3).printDetails();
-    (*inven).useTool(*item3);
+    (*inven).useTool(2);
     (*item3).printDetails();
     (*inven).displayDetails();
 
-    (*inven).useTool(*item3);
+    (*inven).useTool(2);
     (*item3).printDetails();
     (*inven).displayDetails();
     

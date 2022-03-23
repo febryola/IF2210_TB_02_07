@@ -14,8 +14,10 @@ crafting::crafting(){
 }
 // move ke crafting
 void crafting::move(item *itemMoved, int crafting_slot){
-    this->table[crafting_slot] = *itemMoved;
-    (this->table[crafting_slot]).setQuantity(1);
+    if(this->table[crafting_slot].getQuantity() == 0){
+        this->table[crafting_slot] = *itemMoved;
+        (this->table[crafting_slot]).setQuantity(1);
+    }
     checkCol(crafting_slot);
     checkRow(crafting_slot);
 }
@@ -84,7 +86,7 @@ void crafting::checkCol(int crafting_slot){
 bool crafting::isTableEmpty(){
     int i = 0;
     for(i = 0; i < 9; i++){
-        if(this->table[i].getName() != "UNKNOWN"){
+        if(this->table[i].getQuantity() != 0){
             return false;
         }
     }

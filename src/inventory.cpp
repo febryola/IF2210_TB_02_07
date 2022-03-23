@@ -59,7 +59,7 @@ void inventory :: displayDetails(){
                 " Durability: "<<this->inv_buffer[i]->getDurability()<<endl;
             }
             else if((this->inv_buffer[i])->getDurability()==-1){
-                if(this->inv_buffer[i]->getQuantity()==0){
+                if(isEmpty(i)){
                     cout<< "Jenis: unknown, Slot_inv: "
                     <<i<<", Nama: unknown, Quantity: 0"<<endl;
                 }
@@ -89,7 +89,7 @@ void inventory :: addNonTool(nontool* item, int start){
             }
         }
         //case 2: slot kosong
-        else if(this->inv_buffer[i]->getId()==0){
+        else if(isEmpty(i)){
             if(item->getQuantity()<=MAX_SIZE){
                 set(i,item);
                 return;
@@ -106,7 +106,7 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item, int quant){
     for(int i = quant; i<size_inventory;i++){
-        if(this->get(i)->getQuantity()==0){
+        if(isEmpty(i)){
             set(i,item);
             return;
         }
@@ -170,7 +170,7 @@ void inventory :: exportInventory(string namaFile){
     {
       for (int i = 0; i < size_inventory; i++) {
           if((this->inv_buffer[i])->getDurability()==-1){//nontool
-                if(this->inv_buffer[i]->getQuantity()==0){
+                if(isEmpty(i)){
                     fw <<"0:0"<< "\n";
                 }
                 else{
@@ -179,7 +179,7 @@ void inventory :: exportInventory(string namaFile){
                 
           }
             else if((this->inv_buffer[i])->getDurability()>=0){//tool
-                if(this->inv_buffer[i]->getQuantity()==0){
+                if(isEmpty(i)){
                     fw <<"0:0"<< "\n";
                 }
                 else{

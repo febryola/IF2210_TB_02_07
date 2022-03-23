@@ -90,12 +90,24 @@ int main() {
 
     else if (command == "MOVE") 
     {
-      int slotSrc;
+      string slotSrc;
       int slotQty;
-      int slotDest;
+      string slotDest;
       cin >> slotSrc;
       cin >> slotQty;
       cin >> slotDest;
+      if(slotSrc[0]=='I')
+      {
+        if(slotDest[0]=='I'){
+          (*inven).toAnotherSlot(stoi(slotSrc.substr(1, slotSrc.size()-1)),stoi(slotDest.substr(1, slotDest.size()-1)));
+        }
+        else if(slotDest[0]=='C'){
+          item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
+          for(int i=0;i<slotQty;i++){
+            (*craft).move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+          }
+        }
+      }
       
     } 
     else if (command == "DISCARD") 
