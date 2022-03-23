@@ -110,6 +110,7 @@ int main() {
     {
       string slotID;
       cin >> slotID;
+      (*inven).useTool(*((*inven).get(stoi(slotID.substr(1, slotID.size() - 1)))));
     } 
     else 
     {

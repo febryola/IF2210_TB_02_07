@@ -10,7 +10,6 @@ class item {
         string name;
         string type;
         int quantity;
-        int durability;
     public:
         item(); //ctor
         item(int id, string name, string type, int quantity); //ctor
@@ -35,6 +34,7 @@ class item {
 
 
         bool operator==(item i);
+        virtual void useTool();
 };
 
 #endif

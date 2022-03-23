@@ -32,7 +32,7 @@ class inventory {
         void exportInventory(string namaFile);
 
         int findItemPos(item i);
-        void useTool(tool& i);
+        virtual void useTool(item& i);
 };
 
 #endif

@@ -195,7 +195,8 @@ int inventory::findItemPos(item i) {
     return j;
 }
 
-void inventory::useTool(tool& i) {
+void inventory::useTool(item& i) {
+    // harus diperiksa i adalah tool atau nontool
     i.useTool();
     if (i.getDurability() == 0) {
         set(findItemPos(i), new item());
