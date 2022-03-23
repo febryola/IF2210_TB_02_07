@@ -96,8 +96,9 @@ int main() {
     {
       int itemQty;
       string slot;
-      cin >> itemQty;
       cin >> slot;
+      cin >> itemQty;
+      (*inven).discard(itemQty, stoi(slot.substr(1, slot.size() - 1)));
 
     } 
     else if (command == "EXIT") 
@@ -113,7 +114,7 @@ int main() {
     else 
     {
       // todo
-      cout << getColorANSI(RED) << "\nInvalid command" << endl;
+      cout << getColorANSI(RED) << "\nInvalid command" << getColorANSI(NORMAL) << endl;
     }
   }
   return 0;
