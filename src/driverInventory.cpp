@@ -13,15 +13,14 @@ int main(){
     nontool *item2 = new nontool(4, "OAK_PLANK", "PLANK", 6);
     tool *item3 = new tool(13, "IRON_PICKAXE", "-", 1, 2);
     tool *item4 = new tool(14, "WOODEN_AXE", "-", 1, 10);
-    nontool *item5 = new nontool(1, "OAK_LOG", "LOG", 8);
+    nontool *item5 = new nontool(1, "OAK_LOG", "LOG", 60);
     nontool *item6 = new nontool(1, "OAK_LOG", "LOG", 60);
-    item3->printDetails(); 
     (*inven).addNonTool(item1,0);
     (*inven).addNonTool(item2,1);
     (*inven).addTool(item3,2);
     (*inven).addTool(item4,3);
-    (*inven).addNonTool(item5,4);
-    (*inven).addNonTool(item6,5);
+    (*inven).addNonTool(item5,0);
+    (*inven).addTool(item4,4);
     (*inven).displayMenu();
 
     //coba use item3 sampai durability habis;
@@ -48,7 +47,9 @@ int main(){
     (*inven).displayMenu();
     (*inven).moveFromCraft(item5,4);
     (*inven).displayMenu();
-    (*inven).moveToCraft(5,11);
+    (*inven).moveToCraft(4,7);
+    item *items = (*inven).moveToCraft(4,7);
+    items->printDetails();
     (*inven).displayDetails();
     (*inven).exportInventory("../tests/1.out");
     return 0;

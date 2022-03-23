@@ -68,8 +68,23 @@ void inventory :: displayDetails(){
 
 void inventory :: addNonTool(nontool* item, int start){
     for(int i = start; i<size_inventory;i++){
-        if(item->getDurability()==-1&&this->get(i)->getQuantity()==0){
+        
+        //case 1: slot isi
+        if(this->inv_buffer[i]->getId()==item->getId()){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){
+                this->get(i)->setQuantity(this->get(i)->getQuantity()+item->getQuantity());
+                return;
+            }
+            else{
+                item->setQuantity(item->getQuantity()-(MAX_SIZE-this->get(i)->getQuantity()));
+                this->get(i)->setQuantity(MAX_SIZE);
+                this->addNonTool(item,i+1);
+                return;
+            }
+        }
+        //case 2: slot kosong
+        else if(this->inv_buffer[i]->getId()==0){
+            if(item->getQuantity()<=MAX_SIZE){
                 set(i,item);
                 return;
             }
@@ -85,7 +100,7 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item, int quant){
     for(int i = quant; i<size_inventory;i++){
-        if(item->getDurability()>=0&&this->get(i)->getQuantity()==0){
+        if(this->get(i)->getQuantity()==0){
             set(i,item);
             return;
         }
@@ -104,17 +119,19 @@ void inventory :: discard(int quantity, int slot){
     }
 }
 
-void inventory :: moveToCraft(int slotInvent, int N){
+item* inventory :: moveToCraft(int slotInvent, int N){
     item *items = this->inv_buffer[slotInvent];
-    if(this->inv_buffer[slotInvent]->getQuantity()==N){
+    item *items1 = this->inv_buffer[slotInvent];
+    if(items->getQuantity()==N){
         set(slotInvent,new item());
     }
-    else if(this->inv_buffer[slotInvent]->getQuantity()>N){
-        this->inv_buffer[slotInvent]->setQuantity(items->getQuantity()-N);
+    else if(items->getQuantity()>N){
+        items->setQuantity(items->getQuantity()-N);
     }
     else{
         cout<<"jumlah item tidak cukup"<<endl;//pake exception
     }
+    return items1;
 }
 
 void inventory :: moveFromCraft(item* i, int slot){
