@@ -5,6 +5,7 @@
 #include "src/inventory.cpp"
 #include "src/crafting.cpp"
 #include "src/console.cpp"
+#include "src/exception.cpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -50,7 +51,11 @@ int main() {
   cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
   string command;
   bool isRun = true;
-
+  /*
+  string tool_name = "WOODEN_PICKAXE";
+  tool* t = new tool(getIDFromName(tool_name), tool_name, getTypeFromName(tool_name), 1, 2);
+  (*inven).addTool(t, 1);
+  */
   while (isRun) {
     cin >> command;
 
@@ -66,6 +71,7 @@ int main() {
       (*craft).show();
       cout << endl;
       (*inven).displayMenu();
+      //(*t).printDetails();
     } 
     else if (command == "CRAFT")
     {
@@ -98,7 +104,12 @@ int main() {
       string slot;
       cin >> slot;
       cin >> itemQty;
-      (*inven).discard(itemQty, stoi(slot.substr(1, slot.size() - 1)));
+      try {
+        (*inven).discard(itemQty, stoi(slot.substr(1, slot.size() - 1)));
+      }
+      catch (BaseException* e) {
+        e->printMessage();
+      }
 
     } 
     else if (command == "EXIT") 
@@ -110,7 +121,12 @@ int main() {
     {
       string slotID;
       cin >> slotID;
-      (*inven).useTool(*((*inven).get(stoi(slotID.substr(1, slotID.size() - 1)))));
+      try {
+        (*inven).useTool(stoi(slotID.substr(1, slotID.size() - 1)));
+      }
+      catch (BaseException* e) {
+        e->printMessage();
+      }
     } 
     else 
     {

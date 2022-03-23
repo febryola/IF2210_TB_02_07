@@ -30,9 +30,10 @@ class inventory {
         void moveFromCraft(item* i, int slot);
         void toAnotherSlot(int slotSrc, int destSlot);
         void exportInventory(string namaFile);
+        bool isEmpty(int slot);
 
         int findItemPos(item i);
-        virtual void useTool(item& i);
+        virtual void useTool(int slot);
 };
 
 #endif

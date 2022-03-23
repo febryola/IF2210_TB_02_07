@@ -8,7 +8,7 @@ IndexOutOfBoundException::IndexOutOfBoundException(int idxAccessed, int containe
 /* CraftIndexOutOfBoundException */
 CraftIndexOutOfBoundException::CraftIndexOutOfBoundException(int idxAccessed, int craftSize) : IndexOutOfBoundException(idxAccessed, craftSize) {
     this->type = "CraftIndexOutOfBoundException";
-};
+}
 void CraftIndexOutOfBoundException::printMessage() {
     cout << this->type << ": you are trying to access index " << this->idxAccessed << ", "; 
     cout << "while you have [0.." << (this->containerSize-1) << "] "; 
@@ -18,7 +18,7 @@ void CraftIndexOutOfBoundException::printMessage() {
 /* InventoryIndexOutOfBoundException */
 InventoryIndexOutOfBoundException::InventoryIndexOutOfBoundException(int idxAccessed, int inventorySize) : IndexOutOfBoundException(idxAccessed, inventorySize) {
     this->type = "InventoryIndexOutOfBoundException";
-};
+}
 void InventoryIndexOutOfBoundException::printMessage() {
     cout << this->type << ": you are trying to access index " << this->idxAccessed << ", "; 
     cout << "while you have [0.." << (this->containerSize-1) << "] "; 
@@ -82,6 +82,7 @@ void InvalidDiscardException::printMessage() {
     cout << "." << endl;
 }
 
+/*
 // TESTING EXCEPTION
 int main () {
     CraftIndexOutOfBoundException e1(5, 3);
@@ -110,3 +111,4 @@ int main () {
 
     return 0;
 }
+*/

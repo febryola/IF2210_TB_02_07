@@ -19,16 +19,22 @@ inventory :: ~inventory(){
 
 item* inventory :: get(int pos){
     if(pos < 0 || pos >= size_inventory){
-        cout<<"INVALID"<<endl; //ini bisa pake exception nanti
+        InventoryIndexOutOfBoundException* exc = new InventoryIndexOutOfBoundException(pos, size_inventory);
+        throw exc;
     }
-    return this->inv_buffer[pos];                                           
+    else {
+        return this->inv_buffer[pos]; 
+    }                                          
 }
 
 void inventory :: set(int pos, item* items){
     if(pos < 0 || pos >= size_inventory){
-        cout<<"INVALID"<<endl; //ini bisa pake exception nanti
+        InventoryIndexOutOfBoundException* exc = new InventoryIndexOutOfBoundException(pos, size_inventory);
+        throw exc;
     }
-    (this->inv_buffer[pos]) = items;               
+    else {
+        (this->inv_buffer[pos]) = items; 
+    }              
 }
 
 void inventory :: displayMenu(){
@@ -115,7 +121,8 @@ void inventory :: discard(int quantity, int slot){
         set(slot, new item());
     }
     else{
-        cout<<"EMPTY"<<endl; //bisa pake exception nanti
+        InvalidDiscardException* exc = new InvalidDiscardException(this->inv_buffer[slot]->getQuantity(), quantity);
+        throw exc;
     }
 }
 
@@ -195,10 +202,20 @@ int inventory::findItemPos(item i) {
     return j;
 }
 
-void inventory::useTool(item& i) {
+void inventory::useTool(int slot) {
     // harus diperiksa i adalah tool atau nontool
-    i.useTool();
-    if (i.getDurability() == 0) {
-        set(findItemPos(i), new item());
+    if (isEmpty(slot)) {
+        UseEmptyException* exc = new UseEmptyException();
+        throw exc;
     }
+    else {
+        (*get(slot)).useTool();
+        if ((*get(slot)).getDurability() == 0) {
+            set(slot, new item());
+    }
+    }
+}
+
+bool inventory::isEmpty(int slot) {
+    return ((*get(slot)).getId() == 0);
 }
