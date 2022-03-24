@@ -55,6 +55,12 @@ class UseEmptyException : public BaseException {
         void printMessage();
 };
 
+class UseNonToolException : public BaseException {
+    public:
+        UseNonToolException ();
+        void printMessage();
+};
+
 class DiscardEmptyException : public BaseException {
     public:
         DiscardEmptyException ();

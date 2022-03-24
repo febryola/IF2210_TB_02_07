@@ -210,12 +210,14 @@ void inventory::useTool(int slot) {
     if (isEmpty(slot)) {
         UseEmptyException* exc = new UseEmptyException();
         throw exc;
-    }
-    else {
+    } else if (this->inv_buffer[slot]->getDurability()==-1) {
+        UseNonToolException* exc = new UseNonToolException();
+        throw exc;
+    } else {
         (*get(slot)).useTool();
         if ((*get(slot)).getDurability() == 0) {
             set(slot, new item());
-    }
+        }
     }
 }
 

@@ -61,6 +61,15 @@ void UseEmptyException::printMessage() {
     cout << "while the inventory slot is empty." << endl;
 }
 
+/* UseNonToolException */
+UseNonToolException::UseNonToolException() {
+    this->type = "UseNonToolException";
+}
+void UseNonToolException::printMessage() {
+    cout << this->type << ": you are trying to use a non-tool item. ";
+    cout << "You can only use tool items. Try DISCARD." << endl;
+}
+
 /* DiscardEmptyException */
 DiscardEmptyException::DiscardEmptyException() {
     this->type = "DiscardEmptyException";
