@@ -155,10 +155,10 @@ int main() {
         string type = itemMap[itemName]->getType();
         if (itemMap[itemName]->getDurability() == -1) { // Nontool
           nontool *items = new nontool(id,itemName,type,itemQty);
-          (*inven).addNonTool(items);
+          (*inven).addNonTool(items,0);
         } else { // Tool
           tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
-          (*inven).addTool(items);
+          (*inven).addTool(items,0);
         }
         cout << "\nItem " << itemName << " berhasil ditambahkan ke inventory";
         (*inven).displayMenu();

@@ -72,8 +72,8 @@ void inventory :: displayDetails(){
         }
 }
 
-void inventory :: addNonTool(nontool* item){
-    for(int i = 0; i<size_inventory; i++){
+void inventory :: addNonTool(nontool* item, int start){
+    for(int i = start; i<size_inventory; i++){
         //case 1: slot isi
         if(this->inv_buffer[i]->getId()==item->getId()){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){ // jika slot isi + quantity item baru <= maksimum
@@ -83,7 +83,7 @@ void inventory :: addNonTool(nontool* item){
             else { // jika slot isi + quantity item baru > maksimum
                 item->setQuantity(item->getQuantity()-(MAX_SIZE-this->get(i)->getQuantity()));
                 this->get(i)->setQuantity(MAX_SIZE);
-                this->addNonTool(item);
+                this->addNonTool(item,i+1);
                 return;
             }
         }
@@ -97,23 +97,22 @@ void inventory :: addNonTool(nontool* item){
                 nontool* temp = new nontool(item->getId(),item->getName(),item->getType(),MAX_SIZE);
                 set(i,temp);
                 item->setQuantity(item->getQuantity()-MAX_SIZE);
-                this->addNonTool(item);
+                this->addNonTool(item,i+1);
                 return;
             }
         }
     }
 }
 
-void inventory :: addTool(tool* item){
+void inventory :: addTool(tool* item,int start){
     int qty = item->getQuantity();
-    int i = 0;
-    while (qty>0 && i<size_inventory) {
-        if (isEmpty(i)) {
+    while (qty>0 && start<size_inventory) {
+        if (isEmpty(start)) {
             tool* temp = new tool(item->getId(),item->getName(),item->getType(),1,item->getDurability());
-            set(i,temp);
+            set(start,temp);
             qty--;
         }
-        i++;
+        start++;
     }
 }
 
