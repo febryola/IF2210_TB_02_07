@@ -12,7 +12,9 @@
 #include <string>
 #include <stdlib.h>
 using namespace std;
-void listCommand(){
+
+void listCommand() {
+  // Prosedur untuk menampilkan daftar command
   cout << getColorANSI(RED) << "\nBerikut Daftar Command yang Dapat Digunakan: \n" <<getColorANSI(NORMAL);
   cout << "1. EXPORT  -> mengekspor hasil inputan menjadi file .out ke folder tests\n";
   cout << "2. GIVE    -> menambahkan item ke inventory\n";
@@ -25,13 +27,17 @@ void listCommand(){
 }
 
 int main() {
+  // Deklarasi variabel
+  string configPath = "./config";
+  string itemConfigPath = configPath + "/item.txt";
   inventory *inven = new inventory();
   crafting *craft = new crafting();
+
+  // Print welcome screen
   Console::printHeader();
 
   cout << getColorANSI(RED) << "Berikut Daftar Item yang Dapat Digunakan: \n" << getColorANSI(NORMAL);
-  string configPath = "./config";
-  string itemConfigPath = configPath + "/item.txt";
+
   // read item from config file
   ifstream itemConfigFile(itemConfigPath);
   for (string line; getline(itemConfigFile, line);) {
