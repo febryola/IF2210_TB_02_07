@@ -1,4 +1,3 @@
-// sample main file, replace this with your own code
 #include "src/item.cpp"
 #include "src/tool.cpp"
 #include "src/nontool.cpp"
@@ -11,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <map>
 using namespace std;
 
 void listCommand() {
@@ -30,19 +30,32 @@ int main() {
   // Deklarasi variabel
   string configPath = "./config";
   string itemConfigPath = configPath + "/item.txt";
+  string delimiter = " ";
+  string words[4];
   inventory *inven = new inventory();
   crafting *craft = new crafting();
+  map<string, item*> itemMap;
 
   // Print welcome screen
   Console::printHeader();
 
   cout << getColorANSI(RED) << "Berikut Daftar Item yang Dapat Digunakan: \n" << getColorANSI(NORMAL);
 
-  // read item from config file
+  // Read item from config file, and store it in map
   ifstream itemConfigFile(itemConfigPath);
   for (string line; getline(itemConfigFile, line);) {
     cout << line << endl;
-    // do something
+    for (int i=0; i<4; i++) {
+      words[i] = line.substr(0, line.find(delimiter));
+      line.erase(0, line.find(delimiter) + delimiter.length());
+    }
+    if (words[3] == "TOOL") {
+      item *newItem = new tool(stoi(words[0]), words[1], words[2], 0, 10);
+      itemMap[words[1]] = newItem;
+    } else {
+      item *newItem = new nontool(stoi(words[0]), words[2], words[3], 0);
+      itemMap[words[1]] = newItem;
+    }
   }
 
   // read recipes
@@ -137,10 +150,22 @@ int main() {
       string itemName;
       int itemQty;
       cin >> itemName >> itemQty;
-      int id = getIDFromName(itemName);
-      string type = getTypeFromName(itemName);
-      nontool *items = new nontool(id,itemName,type,itemQty);
-      (*inven).addNonTool(items,0);
+      if (itemMap.find(itemName) != itemMap.end()) { // item ada di config
+        int id = itemMap[itemName]->getId();
+        string type = itemMap[itemName]->getType();
+        // Nontool
+        if (itemMap[itemName]->getDurability() == -1) {
+          nontool *items = new nontool(id,itemName,type,itemQty);
+          (*inven).addNonTool(items,0);
+        } else {
+          tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
+          (*inven).addTool(items,0);
+        }
+        cout << "Item " << itemName << " berhasil ditambahkan ke inventory" << endl;
+        (*inven).displayMenu();
+      } else { // item tidak ada di config
+        cout << "Item tidak ditemukan" << endl;
+      }
     } 
 
     // command MOVE; ada tiga varian: inven -> craft, inven -> inven, craft -> inven
