@@ -1,31 +1,31 @@
 #include "listOfRecipe.hpp"
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <filesystem>
 
 listOfRecipe::listOfRecipe(){
+    string configPath = "../config";
     vector<recipe> recipeList;
     for (const auto &entry :
        filesystem::directory_iterator(configPath + "/recipe")) {
-            ifstream itemConfigFile(entry.Path());
+            ifstream itemConfigFile(entry.path());
             recipe baru = recipe();
             string line;
             getline(itemConfigFile, line);
 
             // Line 1, dapetin row col
-            baru.row = -1;
-            baru.col = -1;
             string word = "";
+            line += " ";
             for (auto x : line) 
             {
-                if (x == ' ')
+                if (x == ' ' || x == '\n')
                 {
-                    if(baru.row==-1){
-                        baru.row = stoi(word);
-                    } else{
-                        baru.col = stoi(word);
+                    if(baru.getRow()==-1){
+                        baru.setRow(stoi(word));
+                    } else {
+                        baru.setCol(stoi(word));
                     }
                     word = "";
                 }
@@ -35,16 +35,16 @@ listOfRecipe::listOfRecipe(){
             }
 
             // Untuk tiap baru.row line selanjutnya, masukkan ke corresponding
-            for(int i=0; i<baru.row; i++){
+            for(int i=0; i<baru.getRow(); i++){
                 word = "";
                 getline(itemConfigFile, line);
+                line += " ";
                 int tokenCount = 0;
                 for (auto x : line) 
                 {
-                    if (x == ' ')
+                    if (x == ' ' || x == '\n')
                     {
-                        // Gimana cara lihat 
-                        resep[i+tokenCount] = word;
+                        baru.setResep((i*3+tokenCount), word);
                         tokenCount++;
                         word = "";
                     }
@@ -56,28 +56,29 @@ listOfRecipe::listOfRecipe(){
             }
 
             // Mirror resep
-            if(baru.col>1){
-                for(int i=0; i<baru.row; i++){
-                    resepMirror[i*3] = resep[(i*3) + baru.col-1];
-                    resepMirror[(i*3)+baru.col-1] = resep[i*3];
+            if(baru.getCol()>1){
+                for(int i=0; i<baru.getRow(); i++){
+                    baru.setResepMirror(i*3, baru.getResep((i*3)+baru.getCol()-1));
+                    baru.setResepMirror(((i*3)+baru.getCol()-1), baru.getResep(i*3));
                 }
             } else{
                 for(int i=0; i<9; i++){
-                    resepMirror[i] = resep[i];
+                    baru.setResepMirror(i, baru.getResep(i));
                 }
             }
 
             // Masukkan hasil dan quantity
             getline(itemConfigFile, line);
-            string word = "";
+            line += " ";
+            word = "";
             for (auto x : line) 
             {
-                if (x == ' ')
+                if (x == ' ' || x == '\n')
                 {
-                    if(baru.hasil=="UNKNOWN"){
-                        baru.hasil = word;
-                    } else{
-                        baru.quantity = stoi(word);
+                    if(baru.getHasil() == "UNKNOWN"){
+                        baru.setHasil(word);
+                    } else {
+                        baru.setQuantity(stoi(word));
                     }
                     word = "";
                 }

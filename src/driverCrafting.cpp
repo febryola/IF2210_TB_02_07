@@ -1,17 +1,35 @@
-#include "crafting.cpp"
-#include "item.cpp"
+#include "recipe.hpp"
+#include "listOfRecipe.hpp"
 int main(){
-    item *item1 = new item(1, "OAK_LOG", "LOG", 4);
-    item *item2 = new item(1, "OAK_LOG", "LOG", 4);
-    crafting *crafting1 = new crafting();
-    if((*crafting1).isTableEmpty()){
-        (*crafting1).show();
-    }
-    (*crafting1).move(item1, 1);
-    (*crafting1).move(item1, 2);
-    if((*crafting1).isTableEmpty()){
-        (*crafting1).show();
-    }
-    item def = (*crafting1).move(1);
-    (*crafting1).show();
+    listOfRecipe *listResep = new listOfRecipe();
+    int i;
+    cout << "angka : ";
+    cin >> i;
+    listResep->getRecipe(i).showRecipe();
+    listResep->getRecipe(i+1).showRecipe();
+    listResep->getRecipe(i+2).showRecipe();
+
+    // string line = "1 1";
+    // string word = "";
+    // int row = -1;
+    // int col = -1;
+    // for (auto x : line) 
+    // {   
+    //     cout <<"read:" << x << endl;
+    //     if (x == ' ')
+    //     {
+    //         if(row ==-1){
+    //             row = stoi(word);
+    //         } else {
+    //             col = stoi(word);
+    //         }
+    //         word = "";
+    //     }
+    //     else {
+    //         word = word + x;
+    //     }
+    //     cout << "word:" << word << endl;
+    // }
+    // cout << "row : " << row << " col : " << endl;
+    
 }

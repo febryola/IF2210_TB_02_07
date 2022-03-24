@@ -23,7 +23,7 @@ class crafting{
         // move k inventory
         item move(int crafting_slot);
         void show();
-        item craft(listOfRecipe& recipe_list);
+        string craft(listOfRecipe& recipe_list);
         void checkRow(int crafting_slot);
         void checkCol(int crafting_slot);
         bool isTableEmpty();

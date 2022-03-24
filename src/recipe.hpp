@@ -19,13 +19,20 @@ class recipe{
 
     public:
         recipe();
-        recipe(int row, int col, map<int, item> resep, map<int, item> resepMirror, item hasil);
+        recipe(int row, int col, map<int, string> resep, map<int, string> resepMirror, string hasil);
         int getRow();
         int getCol();
+        void setRow(int x);
+        void setCol(int x);
+        void setResep(int idx, string kata);
         string getResep(int idx);
+        void setResepMirror(int idx, string kata);
         string getResepMirror(int idx);
         int getQuantity();
+        void setQuantity(int x);
         string getHasil();
+        void setHasil(string word);
+        void showRecipe();
 
 
 
