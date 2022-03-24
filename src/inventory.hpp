@@ -23,8 +23,8 @@ class inventory {
         void specify(int pos);
         void displayMenu();
         void displayDetails();
-        void addNonTool(nontool* item, int quantity);
-        void addTool(tool* item, int start);
+        void addNonTool(nontool* item);
+        void addTool(tool* item);
         void discard(int quantity, int slot);
         item* moveToCraft(int slotInvent, int N);
         void moveFromCraft(item* i, int slot);

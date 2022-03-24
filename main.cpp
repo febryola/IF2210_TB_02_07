@@ -153,15 +153,14 @@ int main() {
       if (itemMap.find(itemName) != itemMap.end()) { // item ada di config
         int id = itemMap[itemName]->getId();
         string type = itemMap[itemName]->getType();
-        // Nontool
-        if (itemMap[itemName]->getDurability() == -1) {
+        if (itemMap[itemName]->getDurability() == -1) { // Nontool
           nontool *items = new nontool(id,itemName,type,itemQty);
-          (*inven).addNonTool(items,0);
-        } else {
+          (*inven).addNonTool(items);
+        } else { // Tool
           tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
-          (*inven).addTool(items,0);
+          (*inven).addTool(items);
         }
-        cout << "Item " << itemName << " berhasil ditambahkan ke inventory" << endl;
+        cout << "\nItem " << itemName << " berhasil ditambahkan ke inventory";
         (*inven).displayMenu();
       } else { // item tidak ada di config
         cout << "Item tidak ditemukan" << endl;
@@ -234,11 +233,13 @@ int main() {
     */
     else if (command == "DISCARD") {
       int itemQty;
-      string slot;
-      cin >> slot;
+      string slotID;
+      cin >> slotID;
       cin >> itemQty;
+      int slot = stoi(slotID.substr(1, slotID.size() - 1));
       try {
-        (*inven).discard(itemQty, stoi(slot.substr(1, slot.size() - 1)));
+        (*inven).discard(itemQty, slot);
+        cout << "\nItem " << (*inven).get(slot)->getName() << " berhasil dibuang sejumlah " << itemQty << endl;
       }
       catch (BaseException* e) {
         e->printMessage();
@@ -256,8 +257,12 @@ int main() {
     else if (command == "USE") {
       string slotID;
       cin >> slotID;
+      int slot = stoi(slotID.substr(1, slotID.size() - 1));
       try {
-        (*inven).useTool(stoi(slotID.substr(1, slotID.size() - 1)));
+        /* TODO: cek dia tool atau bukan */
+        (*inven).useTool(slot);
+        cout << "\nBerhasil menggunakan " << (*inven).get(slot)->getName() << endl;
+        cout << "Durability " << (*inven).get(slot)->getName() << ": " << (*inven).get(slot)->getDurability() << endl;
       }
       catch (BaseException* e) {
         e->printMessage();
