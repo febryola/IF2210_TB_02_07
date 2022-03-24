@@ -72,7 +72,7 @@ int main() {
   /*
   string tool_name = "WOODEN_PICKAXE";
   tool* t = new tool(getIDFromName(tool_name), tool_name, getTypeFromName(tool_name), 1, 2);
-  (*inven).addTool(t, 1);
+  (*inven).addTool(t);
   */
   while (isRun) {
     cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
@@ -237,9 +237,10 @@ int main() {
       cin >> slotID;
       cin >> itemQty;
       int slot = stoi(slotID.substr(1, slotID.size() - 1));
+      string name = (*inven).get(slot)->getName();
       try {
         (*inven).discard(itemQty, slot);
-        cout << "\nItem " << (*inven).get(slot)->getName() << " berhasil dibuang sejumlah " << itemQty << endl;
+        cout << "\nItem " << name << " berhasil dibuang sejumlah " << itemQty << endl;
       }
       catch (BaseException* e) {
         e->printMessage();
@@ -258,11 +259,18 @@ int main() {
       string slotID;
       cin >> slotID;
       int slot = stoi(slotID.substr(1, slotID.size() - 1));
+      string name = (*inven).get(slot)->getName();
       try {
         /* TODO: cek dia tool atau bukan */
         (*inven).useTool(slot);
-        cout << "\nBerhasil menggunakan " << (*inven).get(slot)->getName() << endl;
-        cout << "Durability " << (*inven).get(slot)->getName() << ": " << (*inven).get(slot)->getDurability() << endl;
+        int durability = (*inven).get(slot)->getDurability();
+        cout << "\nBerhasil menggunakan " <<  name << endl;
+        if (durability > 0) {
+          cout << "Durability " << name << ": " << durability << endl;
+        }
+        else {
+          cout << "Durability item " << name << " telah mencapai 0, item dihapus dari inventory" << endl;
+        }
       }
       catch (BaseException* e) {
         e->printMessage();
