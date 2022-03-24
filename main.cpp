@@ -148,6 +148,7 @@ int main() {
     Otomatis masuk pada slot ID inventory sesuai ketentuan di atas.
     */
     else if (command == "GIVE") {
+      /* kalo item > slot sisa blm kehandle */
       string itemName;
       int itemQty;
       cin >> itemName >> itemQty;
@@ -209,17 +210,23 @@ int main() {
       cin >> slotSrc;
       cin >> slotQty;
       cin >> slotDest;
-      if(slotSrc[0]=='I')
-      {
-        if(slotDest[0]=='I'){
+      if(slotSrc[0]=='I') {
+        if(slotDest[0]=='I') { // inven -> inven
+          // ini kalo stoi gagal blm kehandle, tambahin exception
           (*inven).toAnotherSlot(stoi(slotSrc.substr(1, slotSrc.size()-1)),stoi(slotDest.substr(1, slotDest.size()-1)));
         }
-        else if(slotDest[0]=='C'){
+        else if(slotDest[0]=='C') { // inven -> craft
           item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
           for(int i=0;i<slotQty;i++){
             (*craft).move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
           }
         }
+      } else if (slotSrc[0]=='C') {
+        if (slotDest[0]=='I') { // craft -> inven
+          // TODO
+        }
+      }
+
       }
     } 
 
