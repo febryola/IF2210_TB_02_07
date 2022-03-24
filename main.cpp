@@ -23,7 +23,8 @@ void listCommand() {
   cout << "5. SHOW    -> menampilkan daftar item yang tersedia\n";
   cout << "6. USE     -> menggunakan tool yang tersedia\n";
   cout << "7. DISCARD -> membuang item dari inventory\n";
-  cout << "8. EXIT    -> keluar dari program\n\n";
+  cout << "8. HELP    -> menampilkan daftar command\n";
+  cout << "9. EXIT    -> keluar dari program\n";
 }
 
 int main() {
@@ -276,6 +277,14 @@ int main() {
         e->printMessage();
       }
     } 
+
+    // command HELP
+    /*
+    Menampilkan daftar perintah yang tersedia.
+    */
+    else if (command == "HELP") {
+      listCommand();
+    }
 
     // command EXIT
     /*
