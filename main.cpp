@@ -262,7 +262,6 @@ int main() {
       int slot = stoi(slotID.substr(1, slotID.size() - 1));
       string name = (*inven).get(slot)->getName();
       try {
-        /* TODO: cek dia tool atau bukan */
         (*inven).useTool(slot);
         int durability = (*inven).get(slot)->getDurability();
         cout << "\nBerhasil menggunakan " <<  name << endl;
@@ -291,6 +290,8 @@ int main() {
     Keluar dari permainan.
     */
     else if (command == "EXIT") {
+      delete inven;
+      delete craft;
       isRun = false;
       exit(0);
     } 
