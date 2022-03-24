@@ -207,7 +207,11 @@ int inventory::findItemPos(item i) {
 
 void inventory::useTool(int slot) {
     // harus diperiksa i adalah tool atau nontool
-    if (isEmpty(slot)) {
+    if (slot > size_inventory) {
+        InventoryIndexOutOfBoundException* exc = new InventoryIndexOutOfBoundException(slot, size_inventory);
+        throw exc;
+    }
+    else if (isEmpty(slot)) {
         UseEmptyException* exc = new UseEmptyException();
         throw exc;
     } else if (this->inv_buffer[slot]->getDurability()==-1) {

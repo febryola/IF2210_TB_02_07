@@ -227,8 +227,7 @@ int main() {
         }
       }
 
-      }
-    } 
+      } 
 
     // command DISCARD <INVENTORY_SLOT_ID> <ITEM_QTY>
     // DISCARD I0 32
@@ -267,8 +266,8 @@ int main() {
       string slotID;
       cin >> slotID;
       int slot = stoi(slotID.substr(1, slotID.size() - 1));
-      string name = (*inven).get(slot)->getName();
       try {
+        string name = (*inven).get(slot)->getName();
         (*inven).useTool(slot);
         int durability = (*inven).get(slot)->getDurability();
         cout << "\nBerhasil menggunakan " <<  name << endl;
