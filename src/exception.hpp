@@ -51,19 +51,19 @@ class NonStackableException : public BaseException {
 
 class UseEmptyException : public BaseException {
     public:
-        UseEmptyException ();
+        UseEmptyException();
         void printMessage();
 };
 
 class UseNonToolException : public BaseException {
     public:
-        UseNonToolException ();
+        UseNonToolException();
         void printMessage();
 };
 
 class DiscardEmptyException : public BaseException {
     public:
-        DiscardEmptyException ();
+        DiscardEmptyException();
         void printMessage();
 };
 
@@ -72,7 +72,37 @@ class InvalidDiscardException : public BaseException {
         int itemQty;
         int discardQty;
     public:
-        InvalidDiscardException (int itemQty, int discardQty);
+        InvalidDiscardException(int itemQty, int discardQty);
+        void printMessage();
+};
+
+class InvalidMoveException : public BaseException {
+    private:
+        int itemQty;
+        int amount;
+    public:
+        InvalidMoveException(int itemQty, int amount);
+        void printMessage();
+};
+
+class InvalidQuantityException : public BaseException {
+    private:
+        int slotSrc;
+        int slotDest;
+    public:
+        InvalidQuantityException(int slotSrc, int slotDest);
+        void printMessage();
+};
+
+class InvalidAddItemException : public BaseException {
+    public:
+        InvalidAddItemException();
+        void printMessage();
+};
+
+class DifferentItemNameException : public BaseException {
+    public:
+        DifferentItemNameException();
         void printMessage();
 };
 

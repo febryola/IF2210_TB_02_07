@@ -2,7 +2,7 @@
 #include "src/tool.cpp"
 #include "src/nontool.cpp"
 #include "src/inventory.cpp"
-#include "src/crafting.cpp"
+//#include "src/crafting.cpp"
 #include "src/console.cpp"
 #include "src/exception.cpp"
 #include <filesystem>
@@ -34,7 +34,7 @@ int main() {
   string delimiter = " ";
   string words[4];
   inventory *inven = new inventory();
-  crafting *craft = new crafting();
+  //crafting *craft = new crafting();
   map<string, item*> itemMap;
 
   // Print welcome screen
@@ -118,7 +118,7 @@ int main() {
     F.S. : isi slot crafting dan inventory ditampilkan
     */
     else if (command == "SHOW") {
-      (*craft).show();
+      //(*craft).show();
       (*inven).displayMenu();
     } 
 
@@ -148,24 +148,29 @@ int main() {
     Otomatis masuk pada slot ID inventory sesuai ketentuan di atas.
     */
     else if (command == "GIVE") {
-      /* kalo item > slot sisa blm kehandle */
-      string itemName;
-      int itemQty;
-      cin >> itemName >> itemQty;
-      if (itemMap.find(itemName) != itemMap.end()) { // item ada di config
-        int id = itemMap[itemName]->getId();
-        string type = itemMap[itemName]->getType();
-        if (itemMap[itemName]->getDurability() == -1) { // Nontool
-          nontool *items = new nontool(id,itemName,type,itemQty);
-          (*inven).addNonTool(items,0);
-        } else { // Tool
-          tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
-          (*inven).addTool(items,0);
+      /* kalo item > slot sisa blm kehandle | DONE */
+      try {
+        string itemName;
+        int itemQty;
+        cin >> itemName >> itemQty;
+        if (itemMap.find(itemName) != itemMap.end()) { // item ada di config
+          int id = itemMap[itemName]->getId();
+          string type = itemMap[itemName]->getType();
+          if (itemMap[itemName]->getDurability() == -1) { // Nontool
+            nontool *items = new nontool(id,itemName,type,itemQty);
+            (*inven).addNonTool(items,0);
+          } else { // Tool
+            tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
+            (*inven).addTool(items,0);
+          }
+          cout << "\nItem " << itemName << " berhasil ditambahkan ke inventory";
+          (*inven).displayMenu();
+        } else { // item tidak ada di config
+          cout << "Item tidak ditemukan" << endl;
         }
-        cout << "\nItem " << itemName << " berhasil ditambahkan ke inventory";
-        (*inven).displayMenu();
-      } else { // item tidak ada di config
-        cout << "Item tidak ditemukan" << endl;
+      }
+      catch (InvalidAddItemException e) {
+        e.printMessage();
       }
     } 
 
@@ -204,30 +209,35 @@ int main() {
       2. Jumlah Item pada INVENTORY_SLOT_ID bertambah 1.
     */
     else if (command == "MOVE") {
-      string slotSrc;
-      int slotQty;
-      string slotDest;
-      cin >> slotSrc;
-      cin >> slotQty;
-      cin >> slotDest;
-      if(slotSrc[0]=='I') {
-        if(slotDest[0]=='I') { // inven -> inven
-          // ini kalo stoi gagal blm kehandle, tambahin exception
-          (*inven).toAnotherSlot(stoi(slotSrc.substr(1, slotSrc.size()-1)),stoi(slotDest.substr(1, slotDest.size()-1)));
-        }
-        else if(slotDest[0]=='C') { // inven -> craft
-          item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
-          for(int i=0;i<slotQty;i++){
-            (*craft).move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+      try {
+        string slotSrc;
+        int slotQty;
+        string slotDest;
+        cin >> slotSrc;
+        cin >> slotQty;
+        cin >> slotDest;
+        if(slotSrc[0]=='I') {
+          if(slotDest[0]=='I') { // inven -> inven
+            // ini kalo stoi gagal blm kehandle, tambahin exception
+            (*inven).toAnotherSlot(stoi(slotSrc.substr(1, slotSrc.size()-1)),stoi(slotDest.substr(1, slotDest.size()-1)));
+          }
+          else if(slotDest[0]=='C') { // inven -> craft
+            item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
+            for(int i=0;i<slotQty;i++){
+              //(*craft).move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+            }
+          }
+        } else if (slotSrc[0]=='C') {
+          if (slotDest[0]=='I') { // craft -> inven
+            // TODO
           }
         }
-      } else if (slotSrc[0]=='C') {
-        if (slotDest[0]=='I') { // craft -> inven
-          // TODO
-        }
+      }
+      catch (FullStackException e) {
+        e.printMessage();
       }
 
-      } 
+    } 
 
     // command DISCARD <INVENTORY_SLOT_ID> <ITEM_QTY>
     // DISCARD I0 32
@@ -297,7 +307,7 @@ int main() {
     */
     else if (command == "EXIT") {
       delete inven;
-      delete craft;
+      //delete craft;
       isRun = false;
       exit(0);
     } 

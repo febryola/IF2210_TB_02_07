@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 #include <filesystem>
+#include <vector>
 
 listOfRecipe::listOfRecipe(){
     string configPath = "../config";

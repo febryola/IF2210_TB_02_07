@@ -52,6 +52,15 @@ void NonStackableException::printMessage() {
     cout << endl;
 }
 
+/* DifferentItemCategoryException */
+DifferentItemNameException::DifferentItemNameException() {
+    this->type = "DifferentItemNameException";
+}
+void DifferentItemNameException::printMessage() {
+    cout << this->type << ": you can't stack different item to an inventory slot.";
+    cout << endl;
+}
+
 /* UseEmptyException */
 UseEmptyException::UseEmptyException() {
     this->type = "UseEmptyException";
@@ -91,33 +100,53 @@ void InvalidDiscardException::printMessage() {
     cout << "." << endl;
 }
 
-/*
-// TESTING EXCEPTION
-int main () {
-    CraftIndexOutOfBoundException e1(5, 3);
-    e1.printMessage();
-
-    InventoryIndexOutOfBoundException e2(8, 2);
-    e2.printMessage();
-
-    FullInventoryException (*e3) = new FullInventoryException();
-    (*e3).printMessage();
-
-    FullStackException (*e4) = new FullStackException();
-    (*e4).printMessage();
-
-    NonStackableException (*e5) = new NonStackableException();
-    (*e5).printMessage();
-    
-    UseEmptyException (*e6) = new UseEmptyException();
-    (*e6).printMessage();
-    
-    DiscardEmptyException (*e7) = new DiscardEmptyException();
-    (*e7).printMessage();
-
-    InvalidDiscardException e8(9,7);
-    e8.printMessage();
-
-    return 0;
+/* InvalidMoveException */
+InvalidMoveException::InvalidMoveException(int itemQty, int amount) {
+    this->itemQty = itemQty;
+    this->amount = amount;
+    this->type = "InvalidMoveException";
 }
-*/
+void InvalidMoveException::printMessage() {
+    cout << this->type << ": you are trying to move item with " << this->amount << " amount, ";
+    cout << "while the item quantity is " << this->itemQty;
+    cout << "." << endl;
+}
+
+/* InvalidAddItemException */
+InvalidAddItemException::InvalidAddItemException() {
+    this->type = "InvalidAddItemException";
+}
+void InvalidAddItemException::printMessage(){
+    cout << this->type << ": you are trying to add item with amount that inventory can't accomodate.";
+    cout << endl;
+}
+
+
+// // TESTING EXCEPTION
+// int main () {
+//     CraftIndexOutOfBoundException e1(5, 3);
+//     e1.printMessage();
+
+//     InventoryIndexOutOfBoundException e2(8, 2);
+//     e2.printMessage();
+
+//     FullInventoryException (*e3) = new FullInventoryException();
+//     (*e3).printMessage();
+
+//     FullStackException (*e4) = new FullStackException();
+//     (*e4).printMessage();
+
+//     NonStackableException (*e5) = new NonStackableException();
+//     (*e5).printMessage();
+    
+//     UseEmptyException (*e6) = new UseEmptyException();
+//     (*e6).printMessage();
+    
+//     DiscardEmptyException (*e7) = new DiscardEmptyException();
+//     (*e7).printMessage();
+
+//     InvalidDiscardException e8(9,7);
+//     e8.printMessage();
+
+//     return 0;
+// }

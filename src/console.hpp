@@ -16,6 +16,4 @@ enum Color {
 };
 namespace Console {
 void printHeader();
-int getIDFromName(string name);
-string getTypeFromName(string name);
 }  // namespace Console

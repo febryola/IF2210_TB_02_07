@@ -31,9 +31,10 @@ class inventory {
         void toAnotherSlot(int slotSrc, int destSlot);
         void exportInventory(string namaFile);
         bool isEmpty(int slot);
-
+        bool isFull();
         int findItemPos(item i);
         virtual void useTool(int slot);
+        int getFilledCount();
 };
 
 #endif

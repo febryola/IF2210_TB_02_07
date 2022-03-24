@@ -73,7 +73,15 @@ void inventory :: displayDetails(){
 }
 
 void inventory :: addNonTool(nontool* item, int start){
+    if (item->getQuantity() > (27 - getFilledCount())*64) {
+        InvalidAddItemException (*exc) = new InvalidAddItemException();
+        throw (*exc);
+    }
     for(int i = start; i<size_inventory; i++){
+        // if (this->get(26)->getQuantity()+item->getQuantity()>MAX_SIZE) {
+        //     InvalidAddItemException (*exc) = new InvalidAddItemException();
+        //     throw (*exc);
+        // }
         //case 1: slot isi
         if(this->inv_buffer[i]->getId()==item->getId()){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){ // jika slot isi + quantity item baru <= maksimum
@@ -106,6 +114,10 @@ void inventory :: addNonTool(nontool* item, int start){
 
 void inventory :: addTool(tool* item,int start){
     int qty = item->getQuantity();
+    if (item->getQuantity() > (27 - getFilledCount())) {
+        InvalidAddItemException (*exc) = new InvalidAddItemException();
+        throw (*exc);
+    }
     while (qty>0 && start<size_inventory) {
         if (isEmpty(start)) {
             tool* temp = new tool(item->getId(),item->getName(),item->getType(),1,item->getDurability());
@@ -124,8 +136,8 @@ void inventory :: discard(int quantity, int slot){
         set(slot, new item());
     }
     else{
-        InvalidDiscardException* exc = new InvalidDiscardException(this->inv_buffer[slot]->getQuantity(), quantity);
-        throw exc;
+        InvalidDiscardException exc(this->inv_buffer[slot]->getQuantity(), quantity);
+        throw (exc);
     }
 }
 
@@ -139,7 +151,9 @@ item* inventory :: moveToCraft(int slotInvent, int N){
         items->setQuantity(items->getQuantity()-N);
     }
     else{
-        cout<<"jumlah item tidak cukup"<<endl;//pake exception
+        InvalidMoveException exc(items->getQuantity(), N);
+        throw (exc);
+        // cout<<"jumlah item tidak cukup"<<endl;//pake exception
     }
     return items1;
 }
@@ -154,6 +168,10 @@ void inventory :: moveFromCraft(item* i, int slot){
 }
 
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
+    if (this->inv_buffer[destSlot]->getQuantity() == 64) {
+        FullStackException (*exc) = new FullStackException();
+        throw (*exc);
+    }
     if(this->inv_buffer[slotSrc]->getName()==this->inv_buffer[destSlot]->getName()){
         if(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity()<=64){
             this->inv_buffer[destSlot]->setQuantity(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity());
@@ -163,6 +181,11 @@ void inventory :: toAnotherSlot(int slotSrc, int destSlot){
             this->inv_buffer[slotSrc]->setQuantity((this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity())%64);
             this->inv_buffer[destSlot]->setQuantity(64);
         }
+    }
+    else {
+        DifferentItemNameException (*exc) = new DifferentItemNameException();
+        throw (*exc);
+        // cout<<"item tidak sama"<<endl;
     }
 }
 
@@ -207,17 +230,19 @@ int inventory::findItemPos(item i) {
 
 void inventory::useTool(int slot) {
     // harus diperiksa i adalah tool atau nontool
-    if (slot > size_inventory) {
-        InventoryIndexOutOfBoundException* exc = new InventoryIndexOutOfBoundException(slot, size_inventory);
+    if (slot < 0 || slot >= size_inventory) {
+        InventoryIndexOutOfBoundException exc(slot, size_inventory);
         throw exc;
     }
     else if (isEmpty(slot)) {
         UseEmptyException* exc = new UseEmptyException();
         throw exc;
-    } else if (this->inv_buffer[slot]->getDurability()==-1) {
-        UseNonToolException* exc = new UseNonToolException();
-        throw exc;
-    } else {
+    } 
+    else if (this->inv_buffer[slot]->getDurability() == -1) {
+        UseNonToolException (*exc) = new UseNonToolException();
+        throw (*exc);
+    } 
+    else {
         (*get(slot)).useTool();
         if ((*get(slot)).getDurability() == 0) {
             set(slot, new item());
@@ -227,4 +252,23 @@ void inventory::useTool(int slot) {
 
 bool inventory::isEmpty(int slot) {
     return ((*get(slot)).getId() == 0);
+}
+
+bool inventory::isFull() {
+    for(int i = 0; i < size_inventory; i++) {
+        if (isEmpty(i)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int inventory::getFilledCount() {
+    int count = 0;
+    for (int i = 0; i < size_inventory; i++) {
+        if(this->get(i)->getId() != 0) {
+            count++;
+        }
+    }
+    return count;
 }
