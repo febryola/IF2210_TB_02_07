@@ -1,26 +1,67 @@
-# Minecraft-Template
+# Mojang!
 
-Template repository for Tubes 1 IF2210 2021/2022. Feel free to replace this README with your own content.
+> _This program is created to fullfil an assignment of the course `Object-Oriented Programming (IF2210)`_ <br/>
+>
+> _Program Studi Teknik Informatika <br/>
+> Sekolah Teknik Elektro dan Informatika <br/>
+> Institut Teknologi Bandung <br/>
+> Semester II Tahun 2021/2022 <br/>_
 
-## What's Inside
-This template consists of:
-- config folder containing all the config files (items and recipes)
-- tests folder containing two sample test files (input and answer)
-- main.cpp containing the sample main code
-- check.cpp containing the code for checking
-- makefile for compiling and testing
+## Table of Content
+* [Description](#Description)
+* [Requirements](#Requirements)
+* [Running the Program](#Running-the-Program)
+* [Automated Tests](#Automated-Tests)
+* [Project Status](#Project-Status)
+* [Authors](#Authors)
 
-## Running the Makefile
-Make sure you are using Linux with C++17. WSL also works if you are using Windows.
+## Description
+This program implements the crafting system of Minecraft in C++ with object-oriented programming.
+
+## Requirements
+Make sure you are using Linux with C++17. WSL also works if you are using Windows.  
+To install the requirements:
 ```
 sudo apt-get install make g++
 make all
 ```
-Using the sample main file, it should return that 1 out of 2 tests passed.
 
-## Adding More Tests
-You can add more tests by adding more files to the tests folder. Tests consists of two files, input with "in" extension and answer with "ans" extension. Each test should have exactly one EXPORT command which exports the current inventory into an "out" file in the tests folder. Please refer to the sample tests. Checking will be done by comparing the answer file and the output file.
+## Running the Program
+To run the program:
+```
+make compile && ./main
+```
+To run automated tests:
+```
+make all
+```
 
-As the test is done by comparing the output files, you can freely use standard output in your program.
+## Automated Tests
+This program accepts automated tests taken from the `tests` folder. Tests consists of two files, input with "in" extension and answer with "ans" extension. Each test should have exactly one EXPORT command which exports the current inventory into an "out" file in the tests folder. Please refer to the sample tests. Checking will be done by comparing the answer file and the output file.
 
-Automated testing will not work if you are using GUI (obviously).
+## Project Status
+> **Project is: _complete_**
+
+## Authors
+<table>
+    <tr>
+      <td><a href="https://github.com/chryes220"><b>Christine Hutabarat</b></a></td>
+      <td><b>13520005</b></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/FelineJTD"><b>Felicia Sutandijo</b></a></td>
+      <td><b>13520050</b></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/sivaren"><b>Rava Naufal Attar</b></a></td>
+      <td><b>13520077</b></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/febryola"><b>Febryola Kurnia Putri</b></a></td>
+      <td><b>13520140</b></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hcarissa"><b>Hilda Carissa Widelia</b></a></td>
+      <td><b>13520164</b></td>
+    </tr>
+</table>
