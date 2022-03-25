@@ -31,15 +31,15 @@ void listCommand() {
 
 int main() {
   // Deklarasi variabel
+  crafting craft1 = crafting();
+  inventory *inven = new inventory();
+  listOfRecipe lor = listOfRecipe();
+
   string configPath = "./config";
   string itemConfigPath = configPath + "/item.txt";
   string delimiter = " ";
   string words[4];
-  inventory *inven = new inventory();
-  //crafting *craft = new crafting();
   map<string, item*> itemMap;
-  crafting craft1 = crafting();
-  listOfRecipe lor = listOfRecipe();
 
   // Print welcome screen
   Console::printHeader();
@@ -63,39 +63,17 @@ int main() {
     }
   }
 
+  // Tampilan command
   listCommand();
   string command;
   bool isRun = true;
 
+  // Input command
   while (isRun) {
     cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
     cout << "> ";
     cin >> command;
 
-    // command EXPORT <NAMA_FILE>
-    // EXPORT inventory.txt
-    /* 
-    Export inventory. Semua item pada inventory akan di export ke file argumen. 
-    Format dari hasil export adalah sebagai berikut:
-      1. Untuk item nontool: <ITEM_ID_0>:<ITEM_QTY_0>
-      2. Untuk item tool: <ITEM_ID_0>:<ITEM_DURA_0>
-      3. Jika tidak ada item pada slot, keluarkan “0:0”. 
-    *//*
-    <ITEM_ID_0>:<ITEM_QTY_0>
-    <ITEM_ID_1>:<ITEM_DURA_1>
-    ...
-    <ITEM_ID_26>:<ITEM_QTY_26>
-    *//*
-    1:64
-    24:10
-    ...
-    0:0
-    0:0
-    *//*
-    I.S. : -
-    F.S. : muncul file dengan nama NAMA_FILE yang berisi pasangan 
-    ITEM_ID dengan ITEM_QTY / ITEM_DURA untuk setiap slot pada inventory.
-    */
     if (command == "EXPORT") {
       string outputPath;
       cin >> outputPath;
@@ -108,28 +86,12 @@ int main() {
       exit(0);
     } 
 
-    // command SHOW
-    /* 
-    Menampilkan crafting table dan inventory. Ilustrasi tampilan ada di spek.
-    I.S. : -
-    F.S. : isi slot crafting dan inventory ditampilkan
-    */
     else if (command == "SHOW") {
       //(*craft).show();
       craft1.show();
       (*inven).displayMenu();
     } 
 
-    // command CRAFT
-    /* 
-    Craft Item. 
-    Jika terdapat resep yang memenuhi, Item bahan akan hilang dan Item hasil akan muncul. 
-    Item akan otomatis ditambahkan ke inventory dengan algoritma yang sama dengan command GIVE. 
-    I.S. : Slot crafting membentuk pattern sesuai salah satu recipe.
-    F.S. :
-      1. Seluruh slot crafting kosong
-      2. Item hasil crafting ditambahkan ke inventory sesuai ketentuan di atas.
-    */
     else if (command == "CRAFT") {
       try {
         item* hasilCraft = craft1.craft(lor, itemMap); // Nontool
@@ -141,19 +103,21 @@ int main() {
       catch (BaseException* e) {
         e->printMessage();
       }
+      catch (InvalidAddItemException e1) {
+        e1.printMessage();
+      }
+      catch (CraftDifferentTypeException e2) {
+        e2.printMessage();
+      }
+      catch (InvalidRecipeException e3) {
+        e3.printMessage();
+      }
     } 
 
-    // command GIVE <ITEM_NAME> <ITEM_QTY>
-    // GIVE OAK_WOOD 10
     /*
     Menambahkan Item ke Inventory.
-    Sejumlah Item dengan jenis yang sama akan ditambahkan ke slot inventory:
-    - Berisi item nontool dengan jenis yang sama
-    - Memiliki quantity < 64 (tidak penuh)
-    I.S. : -
-    F.S. : Item ITEM_NAME pada inventory bertambah sebanyak ITEM_QTY. 
-    Otomatis masuk pada slot ID inventory sesuai ketentuan di atas.
-    */
+    Sejumlah Item dengan jenis yang sama akan ditambahkan ke slot inventory */
+
     else if (command == "GIVE") {
       /* kalo item > slot sisa blm kehandle | DONE */
       try {
@@ -164,9 +128,10 @@ int main() {
           try{
             int id = itemMap[itemName]->getId();
             string type = itemMap[itemName]->getType();
+            int start = (*inven).firstSameItem(itemName);
             if (itemMap[itemName]->getDurability() == -1) { // Nontool
               nontool *items = new nontool(id,itemName,type,itemQty);
-              (*inven).addNonTool(items,0);
+              (*inven).addNonTool(items,start);
             } else { // Tool
               tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
               (*inven).addTool(items,0);
@@ -183,6 +148,9 @@ int main() {
       }
       catch (BaseException* e) {
         e->printMessage();
+      }
+      catch (InvalidAddItemException e1) {
+        e1.printMessage();
       }
     } 
 
@@ -232,25 +200,37 @@ int main() {
           if(slotDest[0]=='I') { // inven -> inven
             // ini kalo stoi gagal blm kehandle, tambahin exception
             (*inven).toAnotherSlot(stoi(slotSrc.substr(1, slotSrc.size()-1)),stoi(slotDest.substr(1, slotDest.size()-1)));
-            cout << "\nItem " << (*inven).get(stoi(slotDest.substr(1, slotDest.size()-1)))->getName() << " berhasil dipindahkan";
+            cout << "\nItem berhasil dipindahkan";
             (*inven).displayMenu();
           }
           else if(slotDest[0]=='C') { // inven -> craft
-            (*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
-            item *makan = (*inven).get(stoi(slotSrc.substr(1, slotSrc.size()-1)));
-            for(int i=0;i<slotQty;i++){
+            if(craft1.isSlotEmpty(stoi(slotDest.substr(1, slotDest.size()-1)))) {
+              item* makan =(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
               craft1.move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+              cout << "\nItem berhasil dipindahkan";
+              (*inven).displayMenu();
+            }else{
+              CraftSlotExistException (*exc) = new CraftSlotExistException();
+              throw (*exc);
             }
           }
         } else if (slotSrc[0]=='C') {
           if (slotDest[0]=='I') { // craft -> inven
             item* itemgajadi = craft1.move(stoi(slotSrc.substr(1,slotSrc.size()-1)));
-            (*inven).moveFromCraft(itemgajadi, 0);
+            (*inven).moveFromCraft(itemgajadi, stoi(slotDest.substr(1,slotDest.size()-1)));
+            cout << "\nItem berhasil dipindahkan";
+            (*inven).displayMenu();
           }
         }
       }
       catch (BaseException* e) {
         e->printMessage();
+      }
+      catch (NonStackableException e2) {
+        e2.printMessage();
+      }
+      catch (CraftSlotExistException e3){
+        e3.printMessage();
       }
     } 
 
@@ -274,9 +254,9 @@ int main() {
         (*inven).discard(itemQty, slot);
         cout << "\nItem " << name << " berhasil dibuang sejumlah " << itemQty << endl;
       }
-      catch (BaseException* e) {
-        e->printMessage();
-      }
+      catch (InvalidDiscardException e2) {
+        e2.printMessage();
+      } 
     } 
 
     // command USE <INVENTORY_SLOT_ID>
@@ -305,6 +285,12 @@ int main() {
       }
       catch (BaseException* e) {
         e->printMessage();
+      }
+      catch (UseEmptyException e1) {
+        e1.printMessage();
+      }
+      catch (UseNonToolException e2) {
+        e2.printMessage();
       }
     } 
 

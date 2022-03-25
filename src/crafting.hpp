@@ -30,6 +30,8 @@ class crafting{
         void checkCol(int crafting_slot);
         bool isThereItem(int idx);
         void deleteAllTable();
+        bool isSlotEmpty(int idx);
+        string getSlotName(int idx);
 
 };
 

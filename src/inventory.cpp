@@ -130,9 +130,10 @@ void inventory :: addTool(tool* item,int start){
 
 void inventory :: add(item* item) {
     bool isNontool = (item->getDurability() == -1);
+    int start = this->firstSameItem(item->getName());
     if (isNontool) { // Nontool
         nontool* newItem = new nontool(item->getId(), item->getName(), item->getType(), item->getQuantity());
-        this->addNonTool(newItem, 0);
+        this->addNonTool(newItem, start);
     } else { // Tool
         tool* newItem = new tool(item->getId(), item->getName(), item->getType(), item->getQuantity(), item->getDurability());
         this->addTool(newItem, 0);
@@ -152,13 +153,17 @@ void inventory :: discard(int quantity, int slot){
     }
 }
 
-void inventory :: moveToCraft(int slotInvent, int N){
+item* inventory :: moveToCraft(int slotInvent, int N){
     item *items = this->inv_buffer[slotInvent];
     if(items->getQuantity()==N){
         set(slotInvent,new item());
+        return items;
     }
     else if(items->getQuantity()>N){
         items->setQuantity(items->getQuantity()-N);
+        item *newItem = (*items).clone();
+        newItem->setQuantity(N);
+        return newItem;
     }
     else{
         InvalidMoveException exc(items->getQuantity(), N);
@@ -168,12 +173,16 @@ void inventory :: moveToCraft(int slotInvent, int N){
 }
 
 void inventory :: moveFromCraft(item* i, int slot){
-    if (i->getName()==this->inv_buffer[slot]->getName()&&this->inv_buffer[slot]->getQuantity()<64&&this->inv_buffer[slot]->getDurability()==-1){
-        this->inv_buffer[slot]->setQuantity(this->inv_buffer[slot]->getQuantity()+1);
+    if(i->getDurability()==-1){
+        nontool* temp = new nontool(i->getId(),i->getName(),i->getType(),i->getQuantity());
+        this->addNonTool(temp,slot);
     }
-    if (this->inv_buffer[slot]->getQuantity()==0){
-        set(slot,i);
+    else
+    {
+        tool* temp = new tool(i->getId(),i->getName(),i->getType(),i->getQuantity(),i->getDurability());
+        this->addTool(temp,slot);
     }
+
 }
 
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
@@ -182,6 +191,10 @@ void inventory :: toAnotherSlot(int slotSrc, int destSlot){
         throw (*exc);
     }
     if(this->inv_buffer[slotSrc]->getName()==this->inv_buffer[destSlot]->getName() && (!isEmpty(slotSrc))) {
+        if(this->inv_buffer[slotSrc]->getDurability() > 0){
+            NonStackableException (*exc) = new NonStackableException();
+            throw (*exc);
+        }
         if(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity()<=64){
             this->inv_buffer[destSlot]->setQuantity(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity());
             set(slotSrc, new(item));
@@ -285,4 +298,18 @@ int inventory::getFilledCount() {
         }
     }
     return count;
+}
+
+int inventory::firstSameItem(string name){
+    int final = 0;
+    int i = 0;
+    bool found = false;
+    while(i < size_inventory && !found){
+       if(this->get(i)->getName() == name){
+           final = i;
+           found = true;
+       } 
+       i++;
+    }
+    return final;
 }

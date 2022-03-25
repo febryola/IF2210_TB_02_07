@@ -26,7 +26,7 @@ class inventory {
         void addNonTool(nontool* item, int start);
         void addTool(tool* item, int start);
         void discard(int quantity, int slot);
-        void moveToCraft(int slotInvent, int N);
+        item* moveToCraft(int slotInvent, int N);
         void moveFromCraft(item* i, int slot);
         void toAnotherSlot(int slotSrc, int destSlot);
         void exportInventory(string namaFile);
@@ -36,6 +36,7 @@ class inventory {
         virtual void useTool(int slot);
         int getFilledCount();
         void add(item* item);
+        int firstSameItem(string name);
 };
 
 #endif

@@ -135,7 +135,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
         if ((*table[i]).getDurability() > 0){
             countTool++;
             idxTool.push_back(i);
-        }else{
+        }else if((*table[i]).getType() == "NONTOOL"){
             countNonTool++;
         }
     }
@@ -147,7 +147,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
         int dur = (*table[idxTool[0]]).getDurability() + (*table[idxTool[1]]).getDurability();
         item* newItem = new tool(id, name, tipe, qty, dur);
         return newItem;
-    } else if(countTool > 1 && countNonTool > 1) {
+    } else if(countTool > 1 && countNonTool > 0) {
         // throw exception
         CraftDifferentTypeException (*exc) =  new CraftDifferentTypeException();
         throw (*exc);
@@ -273,4 +273,15 @@ void crafting::deleteAllTable(){
     }
     this->max_row_filled = 0;
     this->max_col_filled = 0;
+}
+
+bool crafting::isSlotEmpty(int idx){
+    if(this->table[idx]->getId() == 0){
+        return true;
+    }
+    return false;
+}
+
+string crafting::getSlotName(int idx){
+    return this->table[idx]->getName();
 }
