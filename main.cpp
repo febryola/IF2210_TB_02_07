@@ -63,22 +63,10 @@ int main() {
     }
   }
 
-  // read recipes
-  /*for (const auto &entry :
-       filesystem::directory_iterator(configPath + "/recipe")) {
-    cout << entry.path() << endl;
-    // read from file and do something
-  }*/
-
-  // SAMPLE TESTING
   listCommand();
   string command;
   bool isRun = true;
-  /*
-  string tool_name = "WOODEN_PICKAXE";
-  tool* t = new tool(getIDFromName(tool_name), tool_name, getTypeFromName(tool_name), 1, 2);
-  (*inven).addTool(t);
-  */
+
   while (isRun) {
     cout << getColorANSI(YELLOW)<< "\nMasukkan command: \n"<<getColorANSI(NORMAL);
     cout << "> ";
@@ -113,6 +101,11 @@ int main() {
       cin >> outputPath;
       cout << getColorANSI(NORMAL);
       (*inven).exportInventory(outputPath);
+
+      // exit
+      delete inven;
+      isRun = false;
+      exit(0);
     } 
 
     // command SHOW
@@ -144,17 +137,8 @@ int main() {
         cout << "\nItem " << hasilCraft->getName() << " berhasil ditambahkan ke inventory";
         (*inven).displayMenu();
       } 
-      catch (CraftIndexOutOfBoundException exc_1) { 
-          exc_1.printMessage();
-      } 
-      catch (CraftSlotExistException exc_2) {
-          exc_2.printMessage();
-      } 
-      catch (CraftDifferentTypeException exc_3) {
-          exc_3.printMessage();
-      } 
-      catch (InvalidRecipeException exc_4) {
-          exc_4.printMessage();
+      catch (BaseException* e) {
+        e->printMessage();
       }
     } 
 
@@ -176,23 +160,28 @@ int main() {
         int itemQty;
         cin >> itemName >> itemQty;
         if (itemMap.find(itemName) != itemMap.end()) { // item ada di config
-          int id = itemMap[itemName]->getId();
-          string type = itemMap[itemName]->getType();
-          if (itemMap[itemName]->getDurability() == -1) { // Nontool
-            nontool *items = new nontool(id,itemName,type,itemQty);
-            (*inven).addNonTool(items,0);
-          } else { // Tool
-            tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
-            (*inven).addTool(items,0);
+          try{
+            int id = itemMap[itemName]->getId();
+            string type = itemMap[itemName]->getType();
+            if (itemMap[itemName]->getDurability() == -1) { // Nontool
+              nontool *items = new nontool(id,itemName,type,itemQty);
+              (*inven).addNonTool(items,0);
+            } else { // Tool
+              tool *items = new tool(id,itemName,type,itemQty,itemMap[itemName]->getDurability());
+              (*inven).addTool(items,0);
+            }
+            cout << "\nItem " << itemName << " berhasil ditambahkan ke inventory";
+            (*inven).displayMenu();
           }
-          cout << "\nItem " << itemName << " berhasil ditambahkan ke inventory";
-          (*inven).displayMenu();
+          catch (BaseException* e) {
+            e->printMessage();
+          }
         } else { // item tidak ada di config
           cout << "Item tidak ditemukan" << endl;
         }
       }
-      catch (InvalidAddItemException exc) {
-        exc.printMessage();
+      catch (BaseException* e) {
+        e->printMessage();
       }
     } 
 
@@ -248,7 +237,7 @@ int main() {
           else if(slotDest[0]=='C') { // inven -> craft
             item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
             for(int i=0;i<slotQty;i++){
-              cr aft1.m o ve(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+              craft1.move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
             }
           }
         } else if (slotSrc[0]=='C') {
@@ -331,7 +320,6 @@ int main() {
     */
     else if (command == "EXIT") {
       delete inven;
-      //delete craft;
       isRun = false;
       exit(0);
     } 
