@@ -121,6 +121,32 @@ void InvalidAddItemException::printMessage(){
     cout << endl;
 }
 
+/* InvalidRecipeException */
+InvalidRecipeException::InvalidRecipeException() {
+    this->type = "InvalidRecipeException";
+}
+void InvalidRecipeException::printMessage(){
+    cout << this->type << ": you are trying to craft item that doesn't match to any recipes.";
+    cout << endl;
+}
+
+/* CraftSlotExistException */
+CraftSlotExistException::CraftSlotExistException() {
+    this->type = "CraftSlotExistException";
+}
+void CraftSlotExistException::printMessage(){
+    cout << this->type << ": your craft slot destination has been filled.";
+    cout << endl;
+}
+
+/* InvalidCraftMoveException */
+InvalidCraftMoveException::InvalidCraftMoveException(){
+    this->type = "InvalidCraftMoveException";
+}
+void InvalidCraftMoveException::printMessage() {
+    cout << this->type << ": you are trying to craft item that doesn't match to any recipes.";
+    cout << endl;
+}
 
 // // TESTING EXCEPTION
 // int main () {

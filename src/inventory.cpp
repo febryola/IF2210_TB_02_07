@@ -128,6 +128,17 @@ void inventory :: addTool(tool* item,int start){
     }
 }
 
+void inventory :: add(item* item) {
+    bool isNontool = (item->getDurability() == -1);
+    if (isNontool) { // Nontool
+        nontool* newItem = new nontool(item->getId(), item->getName(), item->getType(), item->getQuantity());
+        this->addNonTool(newItem, 0);
+    } else { // Tool
+        tool* newItem = new tool(item->getId(), item->getName(), item->getType(), item->getQuantity(), item->getDurability());
+        this->addTool(newItem, 0);
+    }
+}
+
 void inventory :: discard(int quantity, int slot){
     if(this->inv_buffer[slot]->getQuantity()-quantity>0){
         this->inv_buffer[slot]->setQuantity(this->inv_buffer[slot]->getQuantity()-quantity);

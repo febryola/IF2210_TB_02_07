@@ -2,9 +2,11 @@
 #include "src/tool.cpp"
 #include "src/nontool.cpp"
 #include "src/inventory.cpp"
-//#include "src/crafting.cpp"
+#include "src/crafting.cpp"
 #include "src/console.cpp"
 #include "src/exception.cpp"
+#include "src/listOfRecipe.cpp"
+#include "src/recipe.cpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -37,6 +39,7 @@ int main() {
   //crafting *craft = new crafting();
   map<string, item*> itemMap;
   crafting craft1 = crafting();
+  listOfRecipe lor = listOfRecipe();
 
   // Print welcome screen
   Console::printHeader();
@@ -135,8 +138,13 @@ int main() {
     */
     else if (command == "CRAFT") {
       try{
-        item* hasilCraft = 
-      }catch(){
+        item* hasilCraft = craft1.craft(lor, itemMap);
+        if (hasilCraft->getDurability() == -1) { // Nontool
+            (*inven).add(hasilCraft);
+          }
+          cout << "\nItem " << hasilCraft->getName() << " berhasil ditambahkan ke inventory";
+          (*inven).displayMenu();
+      } catch(FullStackException e){ // dummy
 
       }
     } 

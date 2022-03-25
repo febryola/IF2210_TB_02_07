@@ -35,6 +35,7 @@ class inventory {
         int findItemPos(item i);
         virtual void useTool(int slot);
         int getFilledCount();
+        void add(item* item);
 };
 
 #endif

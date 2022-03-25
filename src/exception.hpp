@@ -106,4 +106,22 @@ class DifferentItemNameException : public BaseException {
         void printMessage();
 };
 
+class InvalidRecipeException : public BaseException {
+    public:
+        InvalidRecipeException();
+        void printMessage();
+};
+
+class CraftSlotExistException : public BaseException {
+    public:
+        CraftSlotExistException();
+        void printMessage();
+};
+
+class InvalidCraftMoveException : public BaseException {
+    public:
+        InvalidCraftMoveException();
+        void printMessage();
+};
+
 #endif

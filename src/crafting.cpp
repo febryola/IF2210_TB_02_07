@@ -25,6 +25,8 @@ void crafting::move(item *itemMoved, int crafting_slot){
         (*this->table[crafting_slot]).setQuantity(1);
     }else{
         // throw exception
+        CraftSlotExistException (*exc) = new CraftSlotExistException();
+        throw (*exc);
     }
     checkCol(crafting_slot);
     checkRow(crafting_slot);
@@ -165,8 +167,9 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
         int dur = (*table[idxTool[0]]).getDurability() + (*table[idxTool[1]]).getDurability();
         item* newItem = new tool(id, name, tipe, qty, dur);
         return newItem;
-    }else{
+    } else{
         // throw exception
+        
     }
 
     // NONTOOL
