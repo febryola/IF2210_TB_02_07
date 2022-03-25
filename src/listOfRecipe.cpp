@@ -7,7 +7,7 @@
 #include <vector>
 
 listOfRecipe::listOfRecipe(){
-    string configPath = "../config";
+    string configPath = "./config";
     vector<recipe> recipeList;
     for (const auto &entry :
        filesystem::directory_iterator(configPath + "/recipe")) {

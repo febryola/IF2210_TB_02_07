@@ -183,15 +183,20 @@ void inventory :: toAnotherSlot(int slotSrc, int destSlot){
         FullStackException (*exc) = new FullStackException();
         throw (*exc);
     }
-    if(this->inv_buffer[slotSrc]->getName()==this->inv_buffer[destSlot]->getName()){
+    if(this->inv_buffer[slotSrc]->getName()==this->inv_buffer[destSlot]->getName() && (!isEmpty(slotSrc))) {
         if(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity()<=64){
             this->inv_buffer[destSlot]->setQuantity(this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity());
-            set(slotSrc, new item());
+            set(slotSrc, new(item));
+            
         }
         else{
             this->inv_buffer[slotSrc]->setQuantity((this->inv_buffer[slotSrc]->getQuantity()+this->inv_buffer[destSlot]->getQuantity())%64);
             this->inv_buffer[destSlot]->setQuantity(64);
         }
+    } 
+    else if (!isEmpty(slotSrc) && isEmpty(destSlot)) {
+        set(destSlot, this->inv_buffer[slotSrc]);
+        set(slotSrc, new(item));
     }
     else {
         DifferentItemNameException (*exc) = new DifferentItemNameException();

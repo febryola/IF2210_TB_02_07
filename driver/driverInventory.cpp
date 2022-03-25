@@ -19,21 +19,21 @@ int main(){
     try {
         (*inven).addNonTool(item1,0); 
         (*inven).addNonTool(item2,0);
-        //(*inven).addTool(item3,0); 
-        //(*inven).addTool(item4,0);
+        (*inven).addTool(item3,0); 
+        (*inven).addTool(item4,0);
     }
     catch (InvalidAddItemException e) {
         e.printMessage();
     }
 
-   /* try {
-        // (*inven).addNonTool(item1,0); 
+    try {
+        (*inven).addNonTool(item1,0); 
         (*inven).toAnotherSlot(0,1); 
         (*inven).toAnotherSlot(1,2);
     }
     catch (DifferentItemNameException e) {
         e.printMessage();
-    }*/
+    }
     /*(*inven).addNonTool(item2,1);
     (*inven).addTool(item3,2);
     (*inven).addTool(item4,3);
