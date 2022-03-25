@@ -152,9 +152,8 @@ void inventory :: discard(int quantity, int slot){
     }
 }
 
-item* inventory :: moveToCraft(int slotInvent, int N){
+void inventory :: moveToCraft(int slotInvent, int N){
     item *items = this->inv_buffer[slotInvent];
-    item *items1 = this->inv_buffer[slotInvent];
     if(items->getQuantity()==N){
         set(slotInvent,new item());
     }
@@ -166,7 +165,6 @@ item* inventory :: moveToCraft(int slotInvent, int N){
         throw (exc);
         // cout<<"jumlah item tidak cukup"<<endl;//pake exception
     }
-    return items1;
 }
 
 void inventory :: moveFromCraft(item* i, int slot){

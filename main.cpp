@@ -141,6 +141,7 @@ int main() {
       try {
         item* hasilCraft = craft1.craft(lor, itemMap); // Nontool
         (*inven).add(hasilCraft);
+        craft1.deleteAllTable();
         cout << "\nItem " << hasilCraft->getName() << " berhasil ditambahkan ke inventory";
         (*inven).displayMenu();
       } 
@@ -246,15 +247,16 @@ int main() {
             (*inven).displayMenu();
           }
           else if(slotDest[0]=='C') { // inven -> craft
-            item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
+            (*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
+            item *makan = (*inven).get(stoi(slotSrc.substr(1, slotSrc.size()-1)));
             for(int i=0;i<slotQty;i++){
-              cr aft1.m o ve(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+              craft1.move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
             }
           }
         } else if (slotSrc[0]=='C') {
           if (slotDest[0]=='I') { // craft -> inven
             item* itemgajadi = craft1.move(stoi(slotSrc.substr(1,slotSrc.size()-1)));
-            
+            (*inven).moveFromCraft(itemgajadi, 0);
           }
         }
       }

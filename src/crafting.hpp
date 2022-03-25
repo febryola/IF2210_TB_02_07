@@ -29,6 +29,7 @@ class crafting{
         void checkRow(int crafting_slot);
         void checkCol(int crafting_slot);
         bool isThereItem(int idx);
+        void deleteAllTable();
 
 };
 

@@ -46,7 +46,8 @@ item* crafting::move(int crafting_slot){
     }
     item item1(0, "UNKNOWN", "UNKNOWN", 0);
     item* def = this->table[crafting_slot];
-    this->table[crafting_slot] = def;
+    item* clone = item1.clone();
+    this->table[crafting_slot] = clone;
     checkCol(crafting_slot);
     checkRow(crafting_slot);
     return def;
@@ -258,4 +259,18 @@ bool crafting::isThereItem(int idx){
         }
     }
     return false;
+}
+
+void crafting::deleteAllTable(){
+    item item1(0, "UNKNOWN", "UNKNOWN", 0);
+    item* newItem = item1.clone();
+    int i = 0;
+    for(i = 0; i < 9; i++){
+        this->table[i] = newItem;
+    }
+    for(i = 0; i < 9; i++){
+        this->stringTable[i] = "abc";
+    }
+    this->max_row_filled = 0;
+    this->max_col_filled = 0;
 }
