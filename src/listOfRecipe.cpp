@@ -56,15 +56,24 @@ listOfRecipe::listOfRecipe(){
                 tokenCount=0;
             }
 
+            for(int i = 0; i<9;i++){
+                if(baru.getResep(i) != "-"){
+                    baru.setFirstItem(baru.getResep(i));
+                    break;
+                }
+            }
+
             // Mirror resep
             if(baru.getCol()>1){
                 for(int i=0; i<baru.getRow(); i++){
-                    baru.setResepMirror(i*3, baru.getResep((i*3)+baru.getCol()-1));
-                    baru.setResepMirror(((i*3)+baru.getCol()-1), baru.getResep(i*3));
+                    baru.setResepMirror(i*3, baru.getResep((i*3)+2));
+                    baru.setResepMirror(((i*3)+1), baru.getResep((i*3)+1));
+                    baru.setResepMirror(((i*3)+2), baru.getResep(i*3));
                 }
             } else{
                 for(int i=0; i<9; i++){
                     baru.setResepMirror(i, baru.getResep(i));
+
                 }
             }
 

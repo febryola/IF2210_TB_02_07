@@ -36,6 +36,7 @@ int main() {
   inventory *inven = new inventory();
   //crafting *craft = new crafting();
   map<string, item*> itemMap;
+  crafting craft1 = crafting();
 
   // Print welcome screen
   Console::printHeader();
@@ -133,7 +134,11 @@ int main() {
       2. Item hasil crafting ditambahkan ke inventory sesuai ketentuan di atas.
     */
     else if (command == "CRAFT") {
-      cout << "TODO" << endl;
+      try{
+        item* hasilCraft = 
+      }catch(){
+
+      }
     } 
 
     // command GIVE <ITEM_NAME> <ITEM_QTY>
@@ -224,12 +229,13 @@ int main() {
           else if(slotDest[0]=='C') { // inven -> craft
             item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
             for(int i=0;i<slotQty;i++){
-              //(*craft).move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+              craft1.move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
             }
           }
         } else if (slotSrc[0]=='C') {
           if (slotDest[0]=='I') { // craft -> inven
-            // TODO
+            item* itemgajadi = craft1.move(stoi(slotSrc.substr(1,slotSrc.size()-1)));
+            
           }
         }
       }

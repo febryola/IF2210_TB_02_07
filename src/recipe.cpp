@@ -6,16 +6,23 @@ recipe::recipe(){
     col = -1;
     int i = 0;
     for(i = 0; i < 9; i++){
-        this->resep[i] = "UNKNOWN";
+        this->resep[i] = "-";
     }
     hasil = "UNKNOWN";
+    firstItem = "-";
 }
 
-recipe::recipe(int row, int col,  map<int, string> resep, map<int, string> resepMirror, string hasil){
+recipe::recipe(int row, int col,  map<int, string> resep, map<int, string> resepMirror, map<int, string> resepMirror2, string hasil){
     this->row = row;
     this->col = col;
     this->resep = resep;
     this->resepMirror = resepMirror;
+    for(int i = 0; i<9;i++){
+        if(resep[i] != "-"){
+            firstItem = resep[i];
+            break;
+        }
+    }
     this->hasil = hasil;
 }
 
@@ -49,6 +56,14 @@ void recipe::setResepMirror(int x, string word){
 string recipe::getResepMirror(int idx){
     return resepMirror[idx];
 }
+
+string recipe::getFirstItem(){
+    return this->firstItem;
+}
+void recipe::setFirstItem(string fi){
+    this->firstItem = fi;
+}
+
 int recipe::getQuantity(){
     return quantity;
 }
@@ -83,4 +98,32 @@ void recipe::showRecipe(){
     cout << "\n";
     cout << "row : " << this->row << " col : " << this->col << endl;
     cout << this->hasil << endl;
+}
+
+void recipe::showMirrorRecipe(){
+    int i = 0;
+    int j = 0;
+    int id_counter = 0;
+    for(i = 0; i < 3; i++){
+        for(j = 0; j < 3; j++){
+            if (this->resepMirror[id_counter] == "UNKNOWN"){
+                cout << "- ";
+            }else{
+                cout << this->resepMirror[id_counter] + " ";
+            }
+            id_counter++;
+        }
+        cout << "\n";
+    }
+    cout << "\n";
+}
+
+int recipe::getNoItem(){
+    int counter = 0;
+    for(int i = 0; i<9;i++){
+        if(resep[i] != "-"){
+            counter++;
+        }
+    }
+    return counter;
 }
