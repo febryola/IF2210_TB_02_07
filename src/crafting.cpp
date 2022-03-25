@@ -60,12 +60,14 @@ void crafting::show(){
     for(i = 0; i < 3; i++){
         for(j = 0; j < 3; j++){
             int id = 0;
+            int jumlah = 0;
             if((*this->table[id_counter]).getName() != "UNKNOWN"){
                 id = (this->table[id_counter])->getId();
+                jumlah = 1;
             }
             cout << "[C" << to_string(id_counter) <<" "
                 << to_string(id)<<" "
-                << "1" << " "
+                << to_string(jumlah) << " "
                 << (this->table[id_counter])->getDurability()<<"]";
             id_counter++;
         }
@@ -144,7 +146,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
         int dur = (*table[idxTool[0]]).getDurability() + (*table[idxTool[1]]).getDurability();
         item* newItem = new tool(id, name, tipe, qty, dur);
         return newItem;
-    } else {
+    } else if(countTool > 1 && countNonTool > 1) {
         // throw exception
         CraftDifferentTypeException (*exc) =  new CraftDifferentTypeException();
         throw (*exc);

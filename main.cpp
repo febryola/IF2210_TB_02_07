@@ -123,6 +123,7 @@ int main() {
     */
     else if (command == "SHOW") {
       //(*craft).show();
+      craft1.show();
       (*inven).displayMenu();
     } 
 
@@ -138,12 +139,10 @@ int main() {
     */
     else if (command == "CRAFT") {
       try {
-        item* hasilCraft = craft1.craft(lor, itemMap);
-        if (hasilCraft->getDurability() == -1) { // Nontool
-            (*inven).add(hasilCraft);
-          }
-          cout << "\nItem " << hasilCraft->getName() << " berhasil ditambahkan ke inventory";
-          (*inven).displayMenu();
+        item* hasilCraft = craft1.craft(lor, itemMap); // Nontool
+        (*inven).add(hasilCraft);
+        cout << "\nItem " << hasilCraft->getName() << " berhasil ditambahkan ke inventory";
+        (*inven).displayMenu();
       } 
       catch (CraftIndexOutOfBoundException exc_1) { 
           exc_1.printMessage();
@@ -247,7 +246,7 @@ int main() {
           else if(slotDest[0]=='C') { // inven -> craft
             item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
             for(int i=0;i<slotQty;i++){
-              craft1.move(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
+              cr aft1.m o ve(makan,stoi(slotDest.substr(1, slotDest.size()-1)));
             }
           }
         } else if (slotSrc[0]=='C') {
