@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <vector>
 
+// CONSTRUCTOR listOfRecipe
 listOfRecipe::listOfRecipe(){
     string configPath = "./config";
     vector<recipe> recipeList;
@@ -107,9 +108,12 @@ listOfRecipe::listOfRecipe(){
     }
 }
 
+// Mendapatkan size dari listOfRecipe
 int listOfRecipe::getSize(){
     return size;
 }
+
+// Mendapatkan suatu recipe
 recipe listOfRecipe::getRecipe(int idx){
     return array_recipe[idx];
 }

@@ -74,6 +74,7 @@ int main() {
     cout << "> ";
     cin >> command;
 
+    // export file hasil
     if (command == "EXPORT") {
       string outputPath;
       cin >> outputPath;
@@ -87,7 +88,6 @@ int main() {
     } 
 
     else if (command == "SHOW") {
-      //(*craft).show();
       craft1.show();
       (*inven).displayMenu();
     } 
@@ -114,12 +114,9 @@ int main() {
       }
     } 
 
-    /*
-    Menambahkan Item ke Inventory.
+    /* Menambahkan Item ke Inventory.
     Sejumlah Item dengan jenis yang sama akan ditambahkan ke slot inventory */
-
     else if (command == "GIVE") {
-      /* kalo item > slot sisa blm kehandle | DONE */
       try {
         string itemName;
         int itemQty;
@@ -154,40 +151,10 @@ int main() {
       }
     } 
 
-    // command MOVE; ada tiga varian: inven -> craft, inven -> inven, craft -> inven
-    // MOVE <INVENTORY_SLOT_ID> N <CRAFTING_SLOT_ID_1> <CRAFTING_SLOT_ID_2> ...
-    // MOVE I0 N C0 C1 C2 ... CN
-    /*
+    /* command MOVE; ada tiga varian: inven -> craft, inven -> inven, craft -> inven
     Memindahkan Item ke slot crafting. 
     Satu jenis item dapat dipindahkan ke beberapa slot crafting. 
-    Jumlah item harus lebih besar atau sama dengan jumlah slot crafting.
-    I.S. : Jumlah Item pada INVENTORY_SLOT_ID sebanyak Qty, dengan Qty >= N (jumlah slot crafting).
-    F.S. : 
-      1. Jumlah Item pada INVENTORY_SLOT_ID sebanyak Qty - N.
-      2. CRAFTING_SLOT_ID_1 hingga N berisi Item yang sama dengan INVENTORY_SLOT_ID dengan jumlah masing-masing 1.
-    */
-    // MOVE <INVENTORY_SLOT_ID_SRC> 1 <INVENTORY_SLOT_ID_DEST>
-    // MOVE I0 1 I1
-    /*
-    Menumpuk Item. Dua buah item non tool yang sama pada inventory dapat ditumpuk.
-    I.S. :
-      1. Jumlah Item pada INVENTORY_SLOT_ID_SRC sebanyak Qty1.
-      2. Jumlah Item pada INVENTORY_SLOT_ID_DEST sebanyak Qty2.
-    F.S. :
-      1. Jumlah Item pada INVENTORY_SLOT_ID_SRC sebanyak 0 (item hilang / habis), jika memungkinkan.
-      2. Jumlah Jumlah Item pada INVENTORY_SLOT_ID_DEST sebanyak Qty1 + Qty2, namun maksimal sebanyak 64.
-    */
-    // MOVE <CRAFTING_SLOT_ID> 1 <INVENTORY_SLOT_ID>
-    // MOVE C0 1 I0
-    /*
-    Mengembalikan Item dari slot crafting ke inventory.
-    I.S. :
-      1. CRAFTING_SLOT_ID tidak kosong.
-      2. INVENTORY_SLOT_ID kosong / berisi item dengan jenis yang sama dan tidak penuh.
-    F.S. : 
-      1. CRAFTING_SLOT_ID kosong.
-      2. Jumlah Item pada INVENTORY_SLOT_ID bertambah 1.
-    */
+    Jumlah item harus lebih besar atau sama dengan jumlah slot crafting. */
     else if (command == "MOVE") {
       try {
         string slotSrc;
@@ -234,15 +201,9 @@ int main() {
       }
     } 
 
-    // command DISCARD <INVENTORY_SLOT_ID> <ITEM_QTY>
-    // DISCARD I0 32
-    /*
+    /* command DISCARD <INVENTORY_SLOT_ID> <ITEM_QTY>
     Membuang item di slot inventory dengan kuantitas yang diberikan. 
-    Gagal bila kuantitas item lebih kecil dari item yang dijadikan masukan perintah.
-    I.S. : Kuantitas item lebih besar sama dengan item pada ITEM_QTY.
-    F.S. : Item pada inventory slot INVENTORY_SLOT_ID berkurang sebanyak ITEM_QTY. 
-    Hapus item pada slot bila item pada INVENTORY_SLOT_ID = 0.
-    */
+    Gagal bila kuantitas item lebih kecil dari item yang dijadikan masukan perintah. */
     else if (command == "DISCARD") {
       int itemQty;
       string slotID;
@@ -259,14 +220,11 @@ int main() {
       } 
     } 
 
-    // command USE <INVENTORY_SLOT_ID>
-    // USE I0
-    /* 
+    /* command USE <INVENTORY_SLOT_ID>
     Menggunakan Item. Item tool dapat digunakan dan durabilitasnya akan berkurang.
     I.S. : INVENTORY_SLOT_ID berisi Item tool.
     F.S. : Durability Item pada INVENTORY_SLOT_ID berkurang 1. 
-    Jika durabilitynya mencapai 0, maka item hilang dari inventory.
-    */
+    Jika durabilitynya mencapai 0, maka item hilang dari inventory. */
     else if (command == "USE") {
       string slotID;
       cin >> slotID;
@@ -294,18 +252,14 @@ int main() {
       }
     } 
 
-    // command HELP
-    /*
-    Menampilkan daftar perintah yang tersedia.
-    */
+    /* command HELP
+    Menampilkan daftar perintah yang tersedia. */
     else if (command == "HELP") {
       listCommand();
     }
 
-    // command EXIT
-    /*
-    Keluar dari permainan.
-    */
+    /* command EXIT
+    Keluar dari permainan. */
     else if (command == "EXIT") {
       delete inven;
       isRun = false;

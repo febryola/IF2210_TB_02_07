@@ -14,6 +14,7 @@ enum Color {
   CYAN,
   WHITE
 };
+string getColorANSI(Color color);
 namespace Console {
 void printHeader();
 }  // namespace Console

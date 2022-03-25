@@ -6,6 +6,7 @@
 #include <fstream>
 using namespace std;
 
+// CONSTRUCTOR INVENTORY
 inventory :: inventory(){
     this->inv_buffer = new item*[size_inventory];
     for(int i = 0; i < size_inventory; i++){
@@ -17,6 +18,7 @@ inventory :: ~inventory(){
     delete[] this->inv_buffer;
 }
 
+// Get item pada posisi tertentu
 item* inventory :: get(int pos){
     if(pos < 0 || pos >= size_inventory){
         InventoryIndexOutOfBoundException* exc = new InventoryIndexOutOfBoundException(pos, size_inventory);
@@ -27,6 +29,7 @@ item* inventory :: get(int pos){
     }                                          
 }
 
+// Set item untuk posisi tertentu
 void inventory :: set(int pos, item* items){
     if(pos < 0 || pos >= size_inventory){
         InventoryIndexOutOfBoundException* exc = new InventoryIndexOutOfBoundException(pos, size_inventory);
@@ -37,6 +40,7 @@ void inventory :: set(int pos, item* items){
     }              
 }
 
+// Display inventory
 void inventory :: displayMenu(){
     cout << "\nInventory: " << endl;
     for(int i=0; i<size_inventory;i++){
@@ -50,6 +54,7 @@ void inventory :: displayMenu(){
     }
 }
 
+// Display details
 void inventory :: displayDetails(){
     cout << "\nInventory Details: " << endl;
         for(int i=0; i<size_inventory;i++){
@@ -72,16 +77,13 @@ void inventory :: displayDetails(){
         }
 }
 
+// Add non-tool item
 void inventory :: addNonTool(nontool* item, int start){
     if (item->getQuantity() > (27 - getFilledCount())*64) {
         InvalidAddItemException (*exc) = new InvalidAddItemException();
         throw (*exc);
     }
     for(int i = start; i<size_inventory; i++){
-        // if (this->get(26)->getQuantity()+item->getQuantity()>MAX_SIZE) {
-        //     InvalidAddItemException (*exc) = new InvalidAddItemException();
-        //     throw (*exc);
-        // }
         //case 1: slot isi
         if(this->inv_buffer[i]->getId()==item->getId()){
             if(this->get(i)->getQuantity()+item->getQuantity()<=MAX_SIZE){ // jika slot isi + quantity item baru <= maksimum
@@ -112,6 +114,7 @@ void inventory :: addNonTool(nontool* item, int start){
     }
 }
 
+// Add tool item 
 void inventory :: addTool(tool* item,int start){
     int qty = item->getQuantity();
     if (item->getQuantity() > (27 - getFilledCount())) {
@@ -128,6 +131,7 @@ void inventory :: addTool(tool* item,int start){
     }
 }
 
+// Add item
 void inventory :: add(item* item) {
     bool isNontool = (item->getDurability() == -1);
     int start = this->firstSameItem(item->getName());
@@ -140,6 +144,7 @@ void inventory :: add(item* item) {
     }
 }
 
+// Discard item
 void inventory :: discard(int quantity, int slot){
     if(this->inv_buffer[slot]->getQuantity()-quantity>0){
         this->inv_buffer[slot]->setQuantity(this->inv_buffer[slot]->getQuantity()-quantity);
@@ -153,6 +158,7 @@ void inventory :: discard(int quantity, int slot){
     }
 }
 
+// Move item to Craft Slot
 item* inventory :: moveToCraft(int slotInvent, int N){
     item *items = this->inv_buffer[slotInvent];
     if(items->getQuantity()==N){
@@ -168,10 +174,10 @@ item* inventory :: moveToCraft(int slotInvent, int N){
     else{
         InvalidMoveException exc(items->getQuantity(), N);
         throw (exc);
-        // cout<<"jumlah item tidak cukup"<<endl;//pake exception
     }
 }
 
+// Move item from craft to inventory
 void inventory :: moveFromCraft(item* i, int slot){
     if(i->getDurability()==-1){
         nontool* temp = new nontool(i->getId(),i->getName(),i->getType(),i->getQuantity());
@@ -182,9 +188,9 @@ void inventory :: moveFromCraft(item* i, int slot){
         tool* temp = new tool(i->getId(),i->getName(),i->getType(),i->getQuantity(),i->getDurability());
         this->addTool(temp,slot);
     }
-
 }
 
+// Move item from slot inventory to another slot in inventory
 void inventory :: toAnotherSlot(int slotSrc, int destSlot){
     if (this->inv_buffer[destSlot]->getQuantity() == 64) {
         FullStackException (*exc) = new FullStackException();
@@ -212,10 +218,10 @@ void inventory :: toAnotherSlot(int slotSrc, int destSlot){
     else {
         DifferentItemNameException (*exc) = new DifferentItemNameException();
         throw (*exc);
-        // cout<<"item tidak sama"<<endl;
     }
 }
 
+// Export inventory
 void inventory :: exportInventory(string namaFile){
     ofstream fw;
     fw.open(namaFile);
@@ -245,6 +251,7 @@ void inventory :: exportInventory(string namaFile){
     }
 }
 
+// Find item pada posisi tertentu
 int inventory::findItemPos(item i) {
     // diasumsikan item ada di dalam inventory
     int j = 0;
@@ -255,6 +262,7 @@ int inventory::findItemPos(item i) {
     return j;
 }
 
+// Menggunakan tool item
 void inventory::useTool(int slot) {
     // harus diperiksa i adalah tool atau nontool
     if (slot < 0 || slot >= size_inventory) {
@@ -277,10 +285,12 @@ void inventory::useTool(int slot) {
     }
 }
 
+// Mengecek apakah suatu slot kosong
 bool inventory::isEmpty(int slot) {
     return ((*get(slot)).getId() == 0);
 }
 
+// Mengecek apakah semua slot inventory telah terisi
 bool inventory::isFull() {
     for(int i = 0; i < size_inventory; i++) {
         if (isEmpty(i)) {
@@ -290,6 +300,7 @@ bool inventory::isFull() {
     return true;
 }
 
+// Mendapatkan jumlah slot yang telah terisi oleh item pada inventory
 int inventory::getFilledCount() {
     int count = 0;
     for (int i = 0; i < size_inventory; i++) {
@@ -300,6 +311,7 @@ int inventory::getFilledCount() {
     return count;
 }
 
+// Mendapatkan posisi item pada inventory dengan nama (name)
 int inventory::firstSameItem(string name){
     int final = 0;
     int i = 0;

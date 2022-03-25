@@ -169,7 +169,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
             }else{
                 sama = true;
             }
-        }else{
+        }else{ // check based on first item on table and on recipe
             int firstIdx = 0;
             int firstIdxResep = 0;
             for(int k = 0; k < 9; k++){
@@ -193,9 +193,6 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
                     if(stringTable[firstIdx] != temp.getResep(firstIdxResep)){
                         sama = false;
                     }else{
-                        if(i == 11){
-                            cout << to_string(firstIdx) << " " << stringTable[firstIdx] << " " << to_string(firstIdxResep) << " " << temp.getResep(firstIdxResep)<<endl;
-                        }
                         if(stringTable[firstIdx]!="-"){
                             cek++;
                         }
@@ -230,6 +227,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
             }
         }
     }
+    // kalau ketemu resepnya
     if(idxFound != -1){
         string name = recipe_list.getRecipe(idxFound).getHasil();
         int id = itemMap[name]->getId();
@@ -251,7 +249,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
     return dummy;
 }
 
-bool crafting::isThereItem(int idx){
+bool crafting::isThereItem(int idx){ //ngecek setelah idx masih ada item atau ga
     bool Found = false;
     for(int i = idx;i<9;i++){
         if(stringTable[i] != "-"){
@@ -261,7 +259,7 @@ bool crafting::isThereItem(int idx){
     return false;
 }
 
-void crafting::deleteAllTable(){
+void crafting::deleteAllTable(){ //ngehapus semua item yg ada di table
     item item1(0, "UNKNOWN", "UNKNOWN", 0);
     item* newItem = item1.clone();
     int i = 0;
@@ -275,13 +273,13 @@ void crafting::deleteAllTable(){
     this->max_col_filled = 0;
 }
 
-bool crafting::isSlotEmpty(int idx){
+bool crafting::isSlotEmpty(int idx){ //ngecek apakah di slot idx kosong
     if(this->table[idx]->getId() == 0){
         return true;
     }
     return false;
 }
 
-string crafting::getSlotName(int idx){
+string crafting::getSlotName(int idx){ //get nama item dari slot idx
     return this->table[idx]->getName();
 }
