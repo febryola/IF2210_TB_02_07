@@ -243,6 +243,8 @@ int main() {
           if(slotDest[0]=='I') { // inven -> inven
             // ini kalo stoi gagal blm kehandle, tambahin exception
             (*inven).toAnotherSlot(stoi(slotSrc.substr(1, slotSrc.size()-1)),stoi(slotDest.substr(1, slotDest.size()-1)));
+            cout << "\nItem " << (*inven).get(stoi(slotDest.substr(1, slotDest.size()-1)))->getName() << " berhasil dipindahkan";
+            (*inven).displayMenu();
           }
           else if(slotDest[0]=='C') { // inven -> craft
             item*makan=(*inven).moveToCraft(stoi(slotSrc.substr(1, slotSrc.size()-1)),slotQty);
