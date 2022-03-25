@@ -6,13 +6,10 @@
 using namespace std;
 
 class nontool : public item {
-    private: 
-        int stacked;
     public:
         nontool();
         nontool(int id, string name, string type, int quantity);
         nontool* clone();
-        int getStack();
 };
 
 #endif
