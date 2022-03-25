@@ -1,7 +1,8 @@
+#include "Console.hpp"
 #include "crafting.hpp"
 #include "item.hpp"
-#include "Console.hpp"
 #include "tool.hpp"
+#include "exception.hpp"
 #include <iostream>
 using namespace std;
 
@@ -20,10 +21,14 @@ crafting::crafting(){
 }
 // move ke crafting
 void crafting::move(item *itemMoved, int crafting_slot){
+    if (crafting_slot < 0 || crafting_slot > 8) {
+        CraftIndexOutOfBoundException exc(crafting_slot, 9);
+        throw (exc);
+    }
     if((*this->table[crafting_slot]).getQuantity() == 0){
         this->table[crafting_slot] = itemMoved;
         (*this->table[crafting_slot]).setQuantity(1);
-    }else{
+    } else{
         // throw exception
         CraftSlotExistException (*exc) = new CraftSlotExistException();
         throw (*exc);
@@ -33,8 +38,12 @@ void crafting::move(item *itemMoved, int crafting_slot){
 }
 
 
-//move ke inventory
+// move ke inventory
 item* crafting::move(int crafting_slot){
+    if (crafting_slot < 0 || crafting_slot > 8) {
+        CraftIndexOutOfBoundException exc(crafting_slot, 9);
+        throw (exc);
+    }
     item item1(0, "UNKNOWN", "UNKNOWN", 0);
     item* def = this->table[crafting_slot];
     this->table[crafting_slot] = def;
@@ -50,27 +59,14 @@ void crafting::show(){
     int id_counter = 0;
     for(i = 0; i < 3; i++){
         for(j = 0; j < 3; j++){
-            cout << "[ ";
-            if ((*this->table[id_counter]).getName() == "UNKNOWN"){
-                cout << "- ";
-            }else{
-                cout <<"C"<<to_string((*this->table[id_counter]).getId()) + " ";
+            int id = 0;
+            if((*this->table[id_counter]).getName() != "UNKNOWN"){
+                id = (this->table[id_counter])->getId();
             }
-            cout << "]";
-            id_counter++;
-        }
-        cout << "\n";
-    }
-    cout << "\n";
-}
-
-void crafting::showStringTable(){
-    int i = 0;
-    int j = 0;
-    int id_counter = 0;
-    for(i = 0; i < 3; i++){
-        for(j = 0; j < 3; j++){
-            cout << "[ "<< this->stringTable[id_counter] << " ]";
+            cout << "[C" << to_string(id_counter) <<" "
+                << to_string(id)<<" "
+                << "1" << " "
+                << (this->table[id_counter])->getDurability()<<"]";
             id_counter++;
         }
         cout << "\n";
@@ -108,25 +104,6 @@ void crafting::checkCol(int crafting_slot){
     }
 }
 
-bool crafting::isTableEmpty(){
-    int i = 0;
-    for(i = 0; i < 9; i++){
-        if((*this->table[i]).getQuantity() != 0){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool crafting::isFull(){
-    int i = 0;
-    for(i = 0; i < 9; i++){
-        if((*this->table[i]).getQuantity() == 0){
-            return false;
-        }
-    }
-    return true;
-}
 item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
     int idxFound = -1;
     bool sama = true;
@@ -140,7 +117,7 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
             }else{
                 stringTable[i] = tipe;
             }
-        }else{
+        } else {
             stringTable[i] = "-";
         }
     }
@@ -167,9 +144,10 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
         int dur = (*table[idxTool[0]]).getDurability() + (*table[idxTool[1]]).getDurability();
         item* newItem = new tool(id, name, tipe, qty, dur);
         return newItem;
-    } else{
+    } else {
         // throw exception
-        
+        CraftDifferentTypeException (*exc) =  new CraftDifferentTypeException();
+        throw (*exc);
     }
 
     // NONTOOL
@@ -262,7 +240,10 @@ item* crafting::craft(listOfRecipe& recipe_list, map<string, item*> itemMap){
             return newItem;
         }
     } else{
-        cout << "Not Found" << endl;
+        // throw exception
+        InvalidRecipeException (*exc) = new InvalidRecipeException();
+        throw (*exc);
+        // cout << "Not Found" << endl;
     }
     return dummy;
 }

@@ -1,9 +1,9 @@
 //#include "inventory.cpp"
-#include "item.cpp"
-#include "tool.cpp"
-#include "nontool.cpp"
-#include "inventory.cpp"
-#include "exception.cpp"
+#include "../src/item.cpp"
+#include "../src/tool.cpp"
+#include "../src/nontool.cpp"
+#include "../src/inventory.cpp"
+#include "../src/exception.cpp"
 #include <iostream>
 using namespace std;
 

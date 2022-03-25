@@ -25,14 +25,9 @@ class crafting{
         // move k inventory
         item* move(int crafting_slot);
         void show();
-        void showStringTable();
         item* craft(listOfRecipe& recipe_list, map<string, item*> itemMap);
         void checkRow(int crafting_slot);
         void checkCol(int crafting_slot);
-        bool isTableEmpty();
-        int countTable();
-        bool isFull();
-        bool isNonTool();
         bool isThereItem(int idx);
 
 };

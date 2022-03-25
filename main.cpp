@@ -137,15 +137,25 @@ int main() {
       2. Item hasil crafting ditambahkan ke inventory sesuai ketentuan di atas.
     */
     else if (command == "CRAFT") {
-      try{
+      try {
         item* hasilCraft = craft1.craft(lor, itemMap);
         if (hasilCraft->getDurability() == -1) { // Nontool
             (*inven).add(hasilCraft);
           }
           cout << "\nItem " << hasilCraft->getName() << " berhasil ditambahkan ke inventory";
           (*inven).displayMenu();
-      } catch(FullStackException e){ // dummy
-
+      } 
+      catch (CraftIndexOutOfBoundException exc_1) { 
+          exc_1.printMessage();
+      } 
+      catch (CraftSlotExistException exc_2) {
+          exc_2.printMessage();
+      } 
+      catch (CraftDifferentTypeException exc_3) {
+          exc_3.printMessage();
+      } 
+      catch (InvalidRecipeException exc_4) {
+          exc_4.printMessage();
       }
     } 
 
@@ -182,8 +192,8 @@ int main() {
           cout << "Item tidak ditemukan" << endl;
         }
       }
-      catch (InvalidAddItemException e) {
-        e.printMessage();
+      catch (InvalidAddItemException exc) {
+        exc.printMessage();
       }
     } 
 
@@ -273,8 +283,8 @@ int main() {
         (*inven).discard(itemQty, slot);
         cout << "\nItem " << name << " berhasil dibuang sejumlah " << itemQty << endl;
       }
-      catch (BaseException* e) {
-        e->printMessage();
+      catch (InvalidDiscardException exc) {
+        exc.printMessage();
       }
     } 
 

@@ -118,9 +118,9 @@ class CraftSlotExistException : public BaseException {
         void printMessage();
 };
 
-class InvalidCraftMoveException : public BaseException {
+class CraftDifferentTypeException : public BaseException {
     public:
-        InvalidCraftMoveException();
+        CraftDifferentTypeException();
         void printMessage();
 };
 
