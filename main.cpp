@@ -257,10 +257,9 @@ int main() {
           }
         }
       }
-      catch (FullStackException e) {
-        e.printMessage();
+      catch (BaseException* e) {
+        e->printMessage();
       }
-
     } 
 
     // command DISCARD <INVENTORY_SLOT_ID> <ITEM_QTY>
@@ -283,8 +282,8 @@ int main() {
         (*inven).discard(itemQty, slot);
         cout << "\nItem " << name << " berhasil dibuang sejumlah " << itemQty << endl;
       }
-      catch (InvalidDiscardException exc) {
-        exc.printMessage();
+      catch (BaseException* e) {
+        e->printMessage();
       }
     } 
 

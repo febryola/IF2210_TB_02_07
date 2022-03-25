@@ -146,7 +146,7 @@ void inventory :: discard(int quantity, int slot){
     else if(this->inv_buffer[slot]->getQuantity()-quantity==0){
         set(slot, new item());
     }
-    else{
+    else {
         InvalidDiscardException exc(this->inv_buffer[slot]->getQuantity(), quantity);
         throw (exc);
     }
